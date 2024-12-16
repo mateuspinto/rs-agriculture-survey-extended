@@ -1,0 +1,90 @@
+root@8510368ae918:/opt/mlagro/sits-siam# python finetuning_original_sits_bert.py 
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py:75: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `pytorch_lightning` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/3
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/3
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/3
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 3 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2]
+
+  | Name      | Type                      | Params | Mode 
+----------------------------------------------------------------
+0 | model     | OriginalSITSBert          | 2.4 M  | train
+1 | criterion | CrossEntropyLoss          | 0      | train
+2 | train_oa  | MulticlassAccuracy        | 0      | train
+3 | val_oa    | MulticlassAccuracy        | 0      | train
+4 | test_oa   | MulticlassAccuracy        | 0      | train
+5 | train_f1  | MulticlassCohenKappa      | 0      | train
+6 | val_f1    | MulticlassCohenKappa      | 0      | train
+7 | test_f1   | MulticlassCohenKappa      | 0      | train
+8 | test_cm   | MulticlassConfusionMatrix | 0      | train
+----------------------------------------------------------------
+2.4 M     Trainable params
+0         Non-trainable params
+2.4 M     Total params
+9.496     Total estimated model params size (MB)
+81        Modules in train mode
+0         Modules in eval mode
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py:298: The number of training batches (1) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.               
+Epoch 99: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.26it/s, v_num=123, train_loss=0.186, train_oa=0.952, train_kappa=0.947, val_loss=0.482, val_oa=0.874, val_kappa=0.863]`Trainer.fit` stopped: `max_epochs=100` reached.                                                                                                                                                                                                                                              
+Epoch 99: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  1.25it/s, v_num=123, train_loss=0.186, train_oa=0.952, train_kappa=0.947, val_loss=0.482, val_oa=0.874, val_kappa=0.863]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2]
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:215: Using `DistributedSampler` with the dataloaders. During `trainer.test()`, it is recommended to use `Trainer(devices=1, num_nodes=1)` to ensure each sample/batch gets evaluated exactly once. Otherwise, multi-device settings use `DistributedSampler` that replicates some samples to make sure all devices have same batch size in case of uneven inputs.
+Testing DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 52/52 [00:20<00:00,  2.50it/s]
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       test_kappa                   nan
+        test_loss           0.4292694926261902
+         test_oa            0.8867753744125366
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+tensor([[ 3673,    24,    65,     6,     3,     0,     8,     0,    15,     0,     0,     8,     2],
+        [  201, 23265,   114,    67,   257,    16,     2,    12,     1,     1,     1,     0,   364],
+        [   23,     0,  1990,   105,     1,     0,     4,     0,     0,     7,     0,    42,     8],
+        [   61,    51,   100, 13925,    82,   137,    66,    24,    40,     5,     0,    58,    74],
+        [   46,   279,    22,    38, 12783,     7,     0,     3,     0,     0,     0,     0,    14],
+        [  209,   187,   563,  1802,   193, 49962,  1824,  2102,  3461,   190,    12,   530,  5557],
+        [    7,     3,    65,   164,     5,   121, 10140,   231,    47,    83,   152,   347,   376],
+        [  104,     1,   200,   720,    56,  1074,   948, 47320,   821,   102,   177,   193,  2045],
+        [   67,    40,   229,    95,     9,   229,   184,    99, 12102,    13,     7,   143,  1135],
+        [   12,     4,    72,   266,     5,    16,   106,    30,     5,   736,    99,   265,    50],
+        [    0,     0,     0,     0,     0,     0,     1,    27,     1,     0,  2939,     0,     0],
+        [   27,     3,  1366,   428,     0,    76,   205,   160,    22,   659,   343, 71444,   185],
+        [    1,     8,   276,   207,     1,   286,   257,   284,   852,    48,    10,    23, 32237]], device='cuda:0')
+tensor([[ 3673,    24,    65,     6,     3,     0,     8,     0,    15,     0,     0,     8,     2],
+        [  201, 23265,   114,    67,   257,    16,     2,    12,     1,     1,     1,     0,   364],
+        [   23,     0,  1990,   105,     1,     0,     4,     0,     0,     7,     0,    42,     8],
+        [   61,    51,   100, 13925,    82,   137,    66,    24,    40,     5,     0,    58,    74],
+        [   46,   279,    22,    38, 12783,     7,     0,     3,     0,     0,     0,     0,    14],
+        [  209,   187,   563,  1802,   193, 49962,  1824,  2102,  3461,   190,    12,   530,  5557],
+        [    7,     3,    65,   164,     5,   121, 10140,   231,    47,    83,   152,   347,   376],
+        [  104,     1,   200,   720,    56,  1074,   948, 47320,   821,   102,   177,   193,  2045],
+        [   67,    40,   229,    95,     9,   229,   184,    99, 12102,    13,     7,   143,  1135],
+        [   12,     4,    72,   266,     5,    16,   106,    30,     5,   736,    99,   265,    50],
+        [    0,     0,     0,     0,     0,     0,     1,    27,     1,     0,  2939,     0,     0],
+        [   27,     3,  1366,   428,     0,    76,   205,   160,    22,   659,   343, 71444,   185],
+        [    1,     8,   276,   207,     1,   286,   257,   284,   852,    48,    10,    23, 32237]], device='cuda:1')
+tensor([[ 3673,    24,    65,     6,     3,     0,     8,     0,    15,     0,     0,     8,     2],
+        [  201, 23265,   114,    67,   257,    16,     2,    12,     1,     1,     1,     0,   364],
+        [   23,     0,  1990,   105,     1,     0,     4,     0,     0,     7,     0,    42,     8],
+        [   61,    51,   100, 13925,    82,   137,    66,    24,    40,     5,     0,    58,    74],
+        [   46,   279,    22,    38, 12783,     7,     0,     3,     0,     0,     0,     0,    14],
+        [  209,   187,   563,  1802,   193, 49962,  1824,  2102,  3461,   190,    12,   530,  5557],
+        [    7,     3,    65,   164,     5,   121, 10140,   231,    47,    83,   152,   347,   376],
+        [  104,     1,   200,   720,    56,  1074,   948, 47320,   821,   102,   177,   193,  2045],
+        [   67,    40,   229,    95,     9,   229,   184,    99, 12102,    13,     7,   143,  1135],
+        [   12,     4,    72,   266,     5,    16,   106,    30,     5,   736,    99,   265,    50],
+        [    0,     0,     0,     0,     0,     0,     1,    27,     1,     0,  2939,     0,     0],
+        [   27,     3,  1366,   428,     0,    76,   205,   160,    22,   659,   343, 71444,   185],
+        [    1,     8,   276,   207,     1,   286,   257,   284,   852,    48,    10,    23, 32237]], device='cuda:2')

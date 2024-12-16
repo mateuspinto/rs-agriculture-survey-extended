@@ -1,0 +1,92 @@
+root@8510368ae918:/opt/mlagro/sits-siam# python finetuning_sits_raw.py 
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/logger_connector/logger_connector.py:75: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `pytorch_lightning` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/3
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/3
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/3
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 3 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2]
+
+   | Name       | Type                      | Params | Mode 
+------------------------------------------------------------------
+0  | backbone   | TransformerBackbone       | 111 K  | train
+1  | bottleneck | PoolingBottleneck         | 0      | train
+2  | classifier | ClassifierHead            | 11.0 K | train
+3  | criterion  | CrossEntropyLoss          | 0      | train
+4  | train_oa   | MulticlassAccuracy        | 0      | train
+5  | val_oa     | MulticlassAccuracy        | 0      | train
+6  | test_oa    | MulticlassAccuracy        | 0      | train
+7  | train_f1   | MulticlassCohenKappa      | 0      | train
+8  | val_f1     | MulticlassCohenKappa      | 0      | train
+9  | test_f1    | MulticlassCohenKappa      | 0      | train
+10 | test_cm    | MulticlassConfusionMatrix | 0      | train
+------------------------------------------------------------------
+122 K     Trainable params
+0         Non-trainable params
+122 K     Total params
+0.489     Total estimated model params size (MB)
+45        Modules in train mode
+0         Modules in eval mode
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/loops/fit_loop.py:298: The number of training batches (1) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.                      
+Epoch 99: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.14it/s, v_num=156, train_loss=0.0123, train_oa=0.998, train_kappa=0.997, val_loss=0.312, val_oa=0.932, val_kappa=0.926]`Trainer.fit` stopped: `max_epochs=100` reached.                                                                                                                                                                                                                                                     
+Epoch 99: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  2.13it/s, v_num=156, train_loss=0.0123, train_oa=0.998, train_kappa=0.997, val_loss=0.312, val_oa=0.932, val_kappa=0.926]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2]
+/opt/conda/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:215: Using `DistributedSampler` with the dataloaders. During `trainer.test()`, it is recommended to use `Trainer(devices=1, num_nodes=1)` to ensure each sample/batch gets evaluated exactly once. Otherwise, multi-device settings use `DistributedSampler` that replicates some samples to make sure all devices have same batch size in case of uneven inputs.
+Testing DataLoader 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 15.98it/s]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       Test metric             DataLoader 0
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+       test_kappa           0.9375468492507935
+        test_loss           0.29106372594833374
+         test_oa             0.942396342754364
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+tensor([[ 98,   0,   2,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,  97,   0,   0,   2,   0,   0,   0,   0,   1,   0,   0,   0],
+        [  0,   0,  97,   0,   0,   0,   0,   0,   0,   3,   0,   0,   0],
+        [  0,   0,   2,  93,   1,   0,   0,   2,   0,   2,   0,   0,   0],
+        [  0,   0,   0,   0, 100,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,   0,   0,   0,   0,  82,   1,   8,   0,   1,   0,   0,   8],
+        [  0,   0,   0,   0,   0,   1,  95,   1,   0,   1,   0,   0,   2],
+        [  1,   0,   0,   0,   0,   2,   0,  96,   0,   0,   0,   0,   1],
+        [  0,   0,   1,   0,   0,   2,   1,   1,  87,   0,   0,   3,   5],
+        [  0,   0,   0,   0,   0,   1,   1,   4,   0,  87,   0,   7,   0],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 100,   0,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   1,  98,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   0,   0,  97]], device='cuda:1')
+tensor([[ 98,   0,   2,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,  97,   0,   0,   2,   0,   0,   0,   0,   1,   0,   0,   0],
+        [  0,   0,  97,   0,   0,   0,   0,   0,   0,   3,   0,   0,   0],
+        [  0,   0,   2,  93,   1,   0,   0,   2,   0,   2,   0,   0,   0],
+        [  0,   0,   0,   0, 100,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,   0,   0,   0,   0,  82,   1,   8,   0,   1,   0,   0,   8],
+        [  0,   0,   0,   0,   0,   1,  95,   1,   0,   1,   0,   0,   2],
+        [  1,   0,   0,   0,   0,   2,   0,  96,   0,   0,   0,   0,   1],
+        [  0,   0,   1,   0,   0,   2,   1,   1,  87,   0,   0,   3,   5],
+        [  0,   0,   0,   0,   0,   1,   1,   4,   0,  87,   0,   7,   0],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 100,   0,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   1,  98,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   0,   0,  97]], device='cuda:2')
+tensor([[ 98,   0,   2,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,  97,   0,   0,   2,   0,   0,   0,   0,   1,   0,   0,   0],
+        [  0,   0,  97,   0,   0,   0,   0,   0,   0,   3,   0,   0,   0],
+        [  0,   0,   2,  93,   1,   0,   0,   2,   0,   2,   0,   0,   0],
+        [  0,   0,   0,   0, 100,   0,   0,   0,   0,   0,   0,   0,   0],
+        [  0,   0,   0,   0,   0,  82,   1,   8,   0,   1,   0,   0,   8],
+        [  0,   0,   0,   0,   0,   1,  95,   1,   0,   1,   0,   0,   2],
+        [  1,   0,   0,   0,   0,   2,   0,  96,   0,   0,   0,   0,   1],
+        [  0,   0,   1,   0,   0,   2,   1,   1,  87,   0,   0,   3,   5],
+        [  0,   0,   0,   0,   0,   1,   1,   4,   0,  87,   0,   7,   0],
+        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 100,   0,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   1,  98,   0],
+        [  0,   0,   0,   0,   0,   1,   0,   0,   0,   2,   0,   0,  97]], device='cuda:0')
