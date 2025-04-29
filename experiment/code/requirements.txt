@@ -36,7 +36,7 @@ curio==1.6
 cycler==0.12.1
 debugpy==1.8.7
 decorator==5.1.1
-deepspeed==0.9.3
+deepspeed==0.15.1
 defusedxml==0.7.1
 deltalake==0.21.0
 docrepr==0.2.0
