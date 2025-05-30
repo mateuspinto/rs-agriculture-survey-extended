@@ -1,1 +1,1 @@
-# Supplementary Materials - From Tradition to Transformation: Deep and Self-Supervised Learning Approaches for Remote Sensing in Agriculture and Environmental Change
+# Supplementary Materials - Advancing Agricultural Remote Sensing: A Comprehensive Review of Deep Supervised and Self-Supervised Learning for Crop Monitoring
