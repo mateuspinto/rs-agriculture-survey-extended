@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advancing Agricultural Remote Sensing: A Comprehensive Review of Deep Supervised and Self-Supervised Learning
+    for Crop Monitoring</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark-gray: #353535;
+      --navbar-link-color: #2E7D32;
+      --accent-color: #4CAF50;
+      --common-link-color: #81C784;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark-gray);
+      background-color: #fafafa;
+    }
+
+    .navbar {
+      background-color: #fff !important;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .navbar-brand,
+    .nav-link {
+      color: var(--dark-gray) !important;
+    }
+
+    .nav-link.active {
+      color: var(--navbar-link-color) !important;
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    .hero-section {
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      margin-bottom: 3rem;
+      padding: 3rem 1rem;
+    }
+
+    .article-title {
+      color: var(--dark-gray);
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .section-card {
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      color: var(--dark-gray);
+      font-size: 1.5rem;
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .author-card {
+      text-align: center;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .author-photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+
+    .keyword-tag {
+      display: inline-block;
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      padding: 0.3rem 0.7rem;
+      margin: 0.2rem;
+    }
+
+    footer {
+      background: #fff;
+      border-top: 1px solid #e0e0e0;
+      color: #666;
+      padding: 2rem 0;
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .task-tag {
+      background: #eee;
+      border-radius: 0.3rem;
+      margin-right: 0.3rem;
+      padding: 0.2rem 0.5rem;
+    }
+
+    .icon-link {
+      color: var(--common-link-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1em;
+      margin-left: 0.3rem;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .icon-link:hover {
+      text-decoration: none;
+      transform: scale(1.2);
+    }
+
+    .reference-item {
+      margin-bottom: 1.2rem;
+      padding: 1rem 1.2rem;
+      border-left: 4px solid var(--accent-color);
+      background: #fafafa;
+      line-height: 1.6;
+      transition: background 0.2s;
+    }
+
+    .reference-item:hover {
+      background: #f0f0f0;
+    }
+
+    .reference-item:target {
+      background: #fff9e6;
+      border-left-color: var(--navbar-link-color);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="#home">Survey</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#authors">Authors</a></li>
+          <li class="nav-item"><a class="nav-link" href="#satellites">Satellites</a></li>
+          <li class="nav-item"><a class="nav-link" href="#labeled_datasets">Labeled Datasets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#unlabeled_datasets">Unlabeled Datasets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#parcel_delineation">Parcel Delineation</a></li>
+          <li class="nav-item"><a class="nav-link" href="#parcel_delineation_ssl">Parcel Delineation Ssl</a></li>
+          <li class="nav-item"><a class="nav-link" href="#crop_mapping_post-harvest">Crop Mapping Post-Harvest</a></li>
+          <li class="nav-item"><a class="nav-link" href="#crop_mapping_in-season">Crop Mapping In-Season</a></li>
+          <li class="nav-item"><a class="nav-link" href="#crop_mapping_mixed">Crop Mapping Mixed</a></li>
+          <li class="nav-item"><a class="nav-link" href="#crop_mapping_ssl">Crop Mapping Ssl</a></li>
+          <li class="nav-item"><a class="nav-link" href="#crop_yield">Crop Yield</a></li>
+          <li class="nav-item"><a class="nav-link" href="#LULC">Lulc</a></li>
+          <li class="nav-item"><a class="nav-link" href="#change_detection">Change Detection</a></li>
+          <li class="nav-item"><a class="nav-link" href="#references">References</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="hero-section text-center">
+    <div class="container">
+      <h1 class="article-title">Advancing Agricultural Remote Sensing: A Comprehensive Review of Deep Supervised and
+        Self-Supervised Learning for Crop Monitoring</h1>
+      <p class="lead mb-4">Deep Learning based on Remote Sensing has become a powerful tool to increase agricultural
+        productivity, mitigate the effects of climate change, and monitor deforestation. However, there is a lack of
+        standardization and appropriate taxonomic classification of the literature available in the context of
+        informatics. Taking advantage of the categories already available in the literature, this paper provides an
+        overview of the relevant literature categorized into five main applications: Parcel Segmentation, Crop Mapping,
+        Crop Yielding, Land Use and Land Cover, and Change Detection. We review notable trends, including the transition
+        from traditional to deep learning, convolutional models, recurrent and attention-based models, and generative
+        strategies. We also map the use of Self-Supervised Learning through contrastive, non-contrastive, data masking
+        and hybrid semi-supervised pretraining for the aforementioned applications with an experimental benchmark for
+        Post-Harvest Crop Mapping models, and present our solution, SITS-Siam, which achieves top performance on two of
+        the three datasets tested. In addition, we provide a comprehensive overview of publicly available datasets for
+        these applications and also unlabeled datasets for Remote Sensing in general. We hope that our work can be
+        useful as a guide for future work in this context. The benchmark code and the pre-trained weights are available
+        in https://github.com/mateuspinto/rs-agriculture-survey-extended.</p>
+      <div class="mb-4"><a href="https://doi.org/10.1016/j.cag.2025.104434" target="_blank" class="btn btn-lg me-2"
+          style="background:#901812;color:#fff;font-weight:600;">Acess Paper</a> <a
+          href="https://github.com/mateuspinto/rs-agriculture-survey-extended" target="_blank" class="btn btn-lg"
+          style="background:#0066cc;color:#fff;font-weight:600;">Acess Code</a></div>
+      <div class="text-center mb-4"><img src="img/graphical_abstract.jpg" alt="Graphical Abstract"
+          class="img-fluid rounded"></div>
+      <div><span class='keyword-tag'>Agricultural Remote Sensing</span><span class='keyword-tag'>Self-Supervised
+          Learning</span><span class='keyword-tag'>Survey</span><span class='keyword-tag'>Crop Mapping</span><span
+          class='keyword-tag'>Crop Yielding</span><span class='keyword-tag'>Parcel Delineation</span></div>
+    </div>
+  </section>
+  <div class="container" id="authors">
+    <div class="section-card">
+      <h2 class="section-title">Authors</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/mateus.jpg" class="author-photo">
+            <div class="fw-semibold">Mateus Pinto da Silva</div>
+            <div class="text-muted mb-1">Universidade Federal de Viçosa (UFV), Viçosa, Brazil</div>
+            <a href="mailto:mateus.p.silva@ufv.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">mateus.p.silva@ufv.br</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/sabrina.jpg" class="author-photo">
+            <div class="fw-semibold">Sabrina P. L. P. Correa</div>
+            <div class="text-muted mb-1">Universidade Federal de Viçosa (UFV), Viçosa, Brazil</div>
+            <a href="mailto:sabrina.correa@ufv.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">sabrina.correa@ufv.br</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/mariana.jpg" class="author-photo">
+            <div class="fw-semibold">Mariana A. R. Schaefer</div>
+            <div class="text-muted mb-1">Universidade Federal de Viçosa (UFV), Viçosa, Brazil</div>
+            <a href="mailto:mariana.schaefer@ufv.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">mariana.schaefer@ufv.br</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/julio.jpg" class="author-photo">
+            <div class="fw-semibold">Julio C. S. Reis</div>
+            <div class="text-muted mb-1">Universidade Federal de Viçosa (UFV), Viçosa, Brazil</div>
+            <a href="mailto:jreis@ufv.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">jreis@ufv.br</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/ian.jpg" class="author-photo">
+            <div class="fw-semibold">Ian M. Nunes</div>
+            <div class="text-muted mb-1">Brazilian Institute of Geography and Statistics (IBGE), Rio de Janeiro, Brazil
+            </div>
+            <a href="mailto:ian.nunes@ibge.gov.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">ian.nunes@ibge.gov.br</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/jefersson.jpg" class="author-photo">
+            <div class="fw-semibold">Jefersson A. dos Santos</div>
+            <div class="text-muted mb-1">Universidade Federal de Minas Gerais (UFMG), Belo Horizonte, Brazil; University
+              of Sheffield, Sheffield, United Kingdom</div>
+            <a href="mailto:j.santos@sheffield.ac.uk" class="text-decoration-none"
+              style="color: var(--common-link-color)">j.santos@sheffield.ac.uk</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="author-card">
+            <img src="img/hugo.jpg" class="author-photo">
+            <div class="fw-semibold">Hugo N. Oliveira</div>
+            <div class="text-muted mb-1">Universidade Federal de Viçosa (UFV), Viçosa, Brazil</div>
+            <a href="mailto:hugo.n.oliveira@ufv.br" class="text-decoration-none"
+              style="color: var(--common-link-color)">hugo.n.oliveira@ufv.br</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="satellites" class="section-card">
+      <h2 class="section-title">Satellites</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Mission</th>
+              <th>Launch</th>
+              <th>Sensor</th>
+              <th>Spatial Resolution</th>
+              <th>Spectral Resolution</th>
+              <th>Revisit (days)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>POES, MetOp</td>
+              <td>1998</td>
+              <td>AVHRR</td>
+              <td>~1.1 km</td>
+              <td>VIS, NIR, Thermal</td>
+              <td>0.5</td>
+            </tr>
+            <tr>
+              <td>Landsat-1 (L1)*</td>
+              <td>1972</td>
+              <td>MSS</td>
+              <td>~80 m</td>
+              <td>VIS, NIR</td>
+              <td>18</td>
+            </tr>
+            <tr>
+              <td>Landsat-2 (L2)*</td>
+              <td>1975</td>
+              <td>MSS</td>
+              <td>~80 m</td>
+              <td>VIS, NIR</td>
+              <td>18</td>
+            </tr>
+            <tr>
+              <td>Landsat-3 (L3)*</td>
+              <td>1978</td>
+              <td>RBV</td>
+              <td>~40 m, ~80 m</td>
+              <td>PAN, VIS, NIR</td>
+              <td>18</td>
+            </tr>
+            <tr>
+              <td>Landsat-4 (L4)*</td>
+              <td>1982</td>
+              <td>TM</td>
+              <td>~30 m</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>Landsat-5 (L5)*</td>
+              <td>1984</td>
+              <td>TM</td>
+              <td>~30 m</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>Landsat-7 (L7)</td>
+              <td>1999</td>
+              <td>ETM+</td>
+              <td>~30 m</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>Landsat-8 (L8)</td>
+              <td>2013</td>
+              <td>OLI, TIRS</td>
+              <td>~30 m</td>
+              <td>VIS, NIR, SWIR, Thermal, Cirrus</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>Landsat-9 (L9)</td>
+              <td>2021</td>
+              <td>OLI-2, TIRS-2</td>
+              <td>~30 m</td>
+              <td>VIS, NIR, SWIR, Thermal, Cirrus</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>Sentinel-1 (S1)</td>
+              <td>2014</td>
+              <td>SAR C-Band</td>
+              <td>10 m</td>
+              <td>VV, VH, HV</td>
+              <td>12</td>
+            </tr>
+            <tr>
+              <td>Sentinel-2 (S2)</td>
+              <td>2015</td>
+              <td>MSI</td>
+              <td>10-60 m</td>
+              <td>VIS, NIR, SWIR, RedEdge</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>Sentinel-3 (S3)</td>
+              <td>2016</td>
+              <td>SLSTR, OLCI, SRAL</td>
+              <td>300 m, 1 km</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>1-2</td>
+            </tr>
+            <tr>
+              <td>Planet</td>
+              <td>2013</td>
+              <td>PlanetScope</td>
+              <td>3-5 m</td>
+              <td>VIS, NIR</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>CBERS-4</td>
+              <td>2014</td>
+              <td>PAN, MUX, WFI</td>
+              <td>5-20 m</td>
+              <td>VIS, NIR</td>
+              <td>26</td>
+            </tr>
+            <tr>
+              <td>CBERS-4A</td>
+              <td>2019</td>
+              <td>PAN, MUX</td>
+              <td>5-10 m</td>
+              <td>PAN, VIS, NIR</td>
+              <td>31</td>
+            </tr>
+            <tr>
+              <td>GaoFen-2 (GF2)**</td>
+              <td>2014</td>
+              <td>PAN, MS</td>
+              <td>1 m, 4 m</td>
+              <td>VIS, NIR</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>MODIS</td>
+              <td>1999</td>
+              <td>Terra, Aqua</td>
+              <td>250 m, 500 m, 1 km</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>1-2</td>
+            </tr>
+            <tr>
+              <td>Suomi-NPP, NOAA-20</td>
+              <td>2011</td>
+              <td>VIIRS</td>
+              <td>375 m</td>
+              <td>VIS, NIR, SWIR, Thermal</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>GeoEye-1</td>
+              <td>2008</td>
+              <td>MS, PAN</td>
+              <td>0.41 m, 1.65 m</td>
+              <td>VIS, NIR</td>
+              <td>3-5</td>
+            </tr>
+            <tr>
+              <td>SPOT</td>
+              <td>1986</td>
+              <td>HRV, HRVIR, Vegetation</td>
+              <td>1.5-20 m</td>
+              <td>VIS, NIR</td>
+              <td>2-3</td>
+            </tr>
+            <tr>
+              <td>QuickBird-2</td>
+              <td>2001</td>
+              <td>Pan, Ms</td>
+              <td>0.61 m, 2.44 m</td>
+              <td>VIS, NIR</td>
+              <td>3-7</td>
+            </tr>
+            <tr>
+              <td>WorldView-2 (WV2)</td>
+              <td>2009</td>
+              <td>Pan, Ms</td>
+              <td>0.46 m, 1.84 m</td>
+              <td>VIS, NIR</td>
+              <td>1.1</td>
+            </tr>
+            <tr>
+              <td>WorldView-3 (WV3)</td>
+              <td>2014</td>
+              <td>Pan, MS, SWIR</td>
+              <td>0.31 m, 1.24 m, 3.7 m</td>
+              <td>VIS, NIR, SWIR</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>ALOS</td>
+              <td>2006</td>
+              <td>PALSAR (L-band), AVNIR-2, PRISM</td>
+              <td>7-44 m, 10 m, 2.5 m</td>
+              <td>HH+HV or VV+VH, RGB-NIR, PAN</td>
+              <td>46</td>
+            </tr>
+            <tr>
+              <td>ALOS-2</td>
+              <td>2014</td>
+              <td>PALSAR-2 (L-Band)</td>
+              <td>10 m</td>
+              <td>HH+HV or VV+VH</td>
+              <td>16</td>
+            </tr>
+            <tr>
+              <td>ALOS-4</td>
+              <td>2024</td>
+              <td>PALSAR-3 (L-Band)</td>
+              <td>10 m</td>
+              <td>HH, HV, VV, VH</td>
+              <td>14</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="labeled_datasets" class="section-card">
+      <h2 class="section-title">Labeled Datasets</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Application</th>
+              <th>Region</th>
+              <th>Input data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3DFGCC* <a href="#ref-ji2020learning" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Mapping</td>
+              <td>China</td>
+              <td>GF2</td>
+            </tr>
+            <tr>
+              <td>AgriSen-COG <a href="#ref-selea2023agrisen" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://data.niaid.nih.gov/resources?id=zenodo_7892011" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a></td>
+              <td>Crop mapping, Parcel Delineation</td>
+              <td>Austria, Belgium, Catalonia, Denmark, Netherlands</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>AI4Boundaries <a href="#ref-d2023ai4boundaries" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://github.com/waldnerf/ai4boundaries" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a></td>
+              <td>Parcel Delineation</td>
+              <td>Western Europe, Scandinavia</td>
+              <td>S2, Aerial</td>
+            </tr>
+            <tr>
+              <td>BreizhCrops <a href="#ref-breizhcrops2020" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://github.com/dl4sits/BreizhCrops" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a></td>
+              <td>Crop Mapping, Parcel Delineation</td>
+              <td>Brittany</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>Crop Yield Prediction USA <a href="#ref-selea_agrisen-coglpisgt_2023" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Crop Yielding</td>
+              <td>USA</td>
+              <td>Pixel level</td>
+            </tr>
+            <tr>
+              <td>Cropharvest <a href="#ref-tseng2021cropharvest" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Mapping</td>
+              <td>Worldwide</td>
+              <td>S1, S2, ERA5, SRTM Elevation</td>
+            </tr>
+            <tr>
+              <td>CropNet <a href="#ref-fudong:kdd24:crop_net" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://github.com/fudonglin/CropNet" target="_blank" class="icon-link" title="GitHub">🧑‍💻</a>
+              </td>
+              <td>Crop Yielding</td>
+              <td>USA</td>
+              <td>S2, weather, yielding</td>
+            </tr>
+            <tr>
+              <td>DENETHOR <a href="#ref-kondmann2021denethor" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://github.com/lukaskondmann/DENETHOR" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a></td>
+              <td>Crop Mapping, Parcel Delineation</td>
+              <td>Germany</td>
+              <td>S1, S2, Planet</td>
+            </tr>
+            <tr>
+              <td>Fields of The World (FTW) <a href="#ref-kerner2024fields" class="icon-link" title="Ver citação">📚</a>
+                <a href="https://github.com/fieldsoftheworld/" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a> <a href="https://huggingface.co/torchgeo/fields-of-the-world" target="_blank"
+                  class="icon-link" title="PyPI">🐍</a>
+              </td>
+              <td>Parcel Delineation, Crop Mapping</td>
+              <td>Worldwide</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>Global dataset of historical yields <a href="#ref-iizumi2020global" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Crop Yielding</td>
+              <td>Worldwide</td>
+              <td>County</td>
+            </tr>
+            <tr>
+              <td>LEM+ <a href="#ref-oldoni2020lem+" class="icon-link" title="Ver citação">📚</a> <a
+                  href="http://dx.doi.org/10.17632/vz6d7tw87f.1#file-5ac1542b-12ef-4dce-8258-113b5c5d87c9"
+                  target="_blank" class="icon-link" title="GitHub">🧑‍💻</a></td>
+              <td>Crop Mapping</td>
+              <td>Brazil</td>
+              <td>Plot level</td>
+            </tr>
+            <tr>
+              <td>PASTIS-HD <a href="#ref-garnot2021panoptic" class="icon-link" title="Ver citação">📚</a> <a
+                  href="https://huggingface.co/datasets/IGNF/PASTIS-HD" target="_blank" class="icon-link"
+                  title="GitHub">🧑‍💻</a></td>
+              <td>Crop Mapping, Parcel Delineation</td>
+              <td>French</td>
+              <td>S1, S2, SPOT VHR</td>
+            </tr>
+            <tr>
+              <td>Purdue Agro-climatic (PAC) <a href="#ref-LIU201761" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Yielding</td>
+              <td>USA Corn Belt</td>
+              <td>Weather, Soil moisture, soil temperature</td>
+            </tr>
+            <tr>
+              <td>S4A <a href="#ref-9749916" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Mapping, Parcel Delineation</td>
+              <td>Catalonia, France</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>Sentinel 2 Crop Mapping <a href="#ref-gallo2022in_season" class="icon-link" title="Ver citação">📚</a>
+              </td>
+              <td>Crop Mapping</td>
+              <td>Lombardia</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>SICKLE <a href="#ref-Sani_2024_WACV" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Yielding, Crop Mapping, Parcel Delineation</td>
+              <td>India</td>
+              <td>L8, S1, S2</td>
+            </tr>
+            <tr>
+              <td>TimeMatch <a href="#ref-nyborgTimeMatchDataset2021" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Mapping</td>
+              <td>Austria, Denmark, France</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>TreeSatAI <a href="#ref-astruc2024omnisat" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Crop Mapping (trees)</td>
+              <td>Germany</td>
+              <td>S1, S2</td>
+            </tr>
+            <tr>
+              <td>Varda Global FieldID HUB <a href="#ref-GlobalFieldID" class="icon-link" title="Ver citação">📚</a>
+              </td>
+              <td>Parcel Delineation</td>
+              <td>Worldwide</td>
+              <td>Label Only</td>
+            </tr>
+            <tr>
+              <td>BEN-MM* <a href="#ref-9552024" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>BigEarthNet v2.0 <a href="#ref-clasen2024reben" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Central, Western, Southern Europe</td>
+              <td>S1, S2</td>
+            </tr>
+            <tr>
+              <td>EuroSAT* <a href="#ref-helber2019eurosat" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Europe</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>Five-Bilion-Pixels <a href="#ref-FBP2023" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>China, Vietnam, Japan, France</td>
+              <td>GF2</td>
+            </tr>
+            <tr>
+              <td>FLAIR* <a href="#ref-ign2022flair1" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>French</td>
+              <td>Aerial, S2</td>
+            </tr>
+            <tr>
+              <td>fMoW* <a href="#ref-Christie_2018_CVPR" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>QB2, GeoEye-1, WV2 and WV3</td>
+            </tr>
+            <tr>
+              <td>fMoW-S2* <a href="#ref-congFunctionalMapWorld2022" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>GEO-Bench <a href="#ref-lacoste2024geo" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC (Benchmark)</td>
+              <td>Worldwide</td>
+              <td>S2, L8</td>
+            </tr>
+            <tr>
+              <td>GeoZcx <a href="#ref-ZHANG2020183" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Change Detection</td>
+              <td>China</td>
+              <td>GE Mosaics</td>
+            </tr>
+            <tr>
+              <td>HRSCD* <a href="#ref-azv7-ta17-20" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Change Detection</td>
+              <td>France</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>LEVIR <a href="#ref-Chen2020" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Change Detection</td>
+              <td>USA</td>
+              <td>GE Mosaics</td>
+            </tr>
+            <tr>
+              <td>MillionAID* <a href="#ref-9393553" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>Aerial</td>
+            </tr>
+            <tr>
+              <td>MMEarth* <a href="#ref-nedungadi2024mmearth" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S1, S2, ERA5, Aster DEM, ETH-GCHM</td>
+            </tr>
+            <tr>
+              <td>RS-4M* <a href="#ref-wang2024scaling" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S2, S1, L8/9, Aerial</td>
+            </tr>
+            <tr>
+              <td>SAMRS* <a href="#ref-wang2024samrs" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>GF2, Aerial</td>
+            </tr>
+            <tr>
+              <td>SatlasPretrain* <a href="#ref-bastani2023satlaspretrain" class="icon-link" title="Ver citação">📚</a>
+              </td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S2, Aerial</td>
+            </tr>
+            <tr>
+              <td>SCD* <a href="#ref-yang2020semantic" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Change Detection</td>
+              <td>China</td>
+              <td>Aerial</td>
+            </tr>
+            <tr>
+              <td>Sen12Flood <a href="#ref-sen12flood_dataset" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Flooding</td>
+              <td>Worldwide</td>
+              <td>S1, S2</td>
+            </tr>
+            <tr>
+              <td>SEN12MS* <a href="#ref-schmitt2019sen12ms" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Worldwide</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>SYSU-CD <a href="#ref-shi21deeply" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Change Detection</td>
+              <td>China</td>
+              <td>Aerial</td>
+            </tr>
+            <tr>
+              <td>TimeSen2Crop <a href="#ref-9408357" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LULC</td>
+              <td>Austria</td>
+              <td>S2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="unlabeled_datasets" class="section-card">
+      <h2 class="section-title">Unlabeled Datasets</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Input Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CACo <a href="#ref-mall_2024_10913174" class="icon-link" title="Ver citação">📚</a></td>
+              <td>1 million samples divided into 4 parts</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>Major TOM <a href="#ref-francis2024major" class="icon-link" title="Ver citação">📚</a></td>
+              <td>2.5 trillion pixels of 1C and 2A imagery, 1,068x1,068 pixel patches</td>
+              <td>S1, S2</td>
+            </tr>
+            <tr>
+              <td>SeCo <a href="#ref-Manas_2021_ICCV" class="icon-link" title="Ver citação">📚</a></td>
+              <td>1 million multispectral patches, 10% cloud cover</td>
+              <td>S2</td>
+            </tr>
+            <tr>
+              <td>SeeFar <a href="#ref-lowman2024seefar" class="icon-link" title="Ver citação">📚</a></td>
+              <td>384×384 patch size, RGBNIR, images with different resolutions</td>
+              <td>SPOT, S2, L8, L9</td>
+            </tr>
+            <tr>
+              <td>SSL4EO-L <a href="#ref-stewart2024ssl4eo" class="icon-link" title="Ver citação">📚</a></td>
+              <td>264×264 patch size, 5 million image patches</td>
+              <td>L4, L5, L7, L8, L9</td>
+            </tr>
+            <tr>
+              <td>SSL4EO-S12 <a href="#ref-wang2023ssl4eo" class="icon-link" title="Ver citação">📚</a></td>
+              <td>264×264 patch size, 3 million patches</td>
+              <td>S1, S2</td>
+            </tr>
+            <tr>
+              <td>TOV <a href="#ref-tao2023tov" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Unbalanced version with 3 million patches, balanced with 0.5 million</td>
+              <td>Aerial</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="parcel_delineation" class="section-card">
+      <h2 class="section-title">Parcel Delineation</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>Approach Type</th>
+              <th>Input Data</th>
+              <th>Key Features / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Segment Anything Model (SAM) adaptation for Remote Sensing <a href="#ref-osco2023segment"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>SAM</td>
+              <td>Foundation Model, Promptable Segmentation</td>
+              <td>VHR, UAV</td>
+              <td>Requires prompts (text/bounding box); needs adaptation for LR/MR/HR; new dataset (SAM UKFields) from
+                S2 NDVI harmonics; preliminary but promising for ag. plots.</td>
+            </tr>
+            <tr>
+              <td>Delineation of Agricultural Parcels using DSCUnet + Richer Conv. Features <a
+                  href="#ref-xu2022delineation" class="icon-link" title="Ver citação">📚</a></td>
+              <td>DSCUnet + Richer Convolutional Features</td>
+              <td>CNN, Semantic Segmentation + Boundary Refinement</td>
+              <td>Gaofen-2 (VHR)</td>
+              <td>Depth-wise separable U-Net for segmentation; RC-FCN for refining boundaries; single-image; issues with
+                small building confusion.</td>
+            </tr>
+            <tr>
+              <td>Edge-aware High-Resolution Network for Parcel Delineation <a href="#ref-xie2023edge" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>HRNet + Attention</td>
+              <td>CNN, Multi-scale, Attention</td>
+              <td>VHR</td>
+              <td>Parallel multi-res branches, object-context & connectivity attention modules, post-process to merge
+                oversegmentation; edges & connectivity focus.</td>
+            </tr>
+            <tr>
+              <td>DeepLabV3 for Agricultural Geometry Detection <a href="#ref-zhang2023novel" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>DeepLabV3</td>
+              <td>CNN, Semantic/Instance Segmentation</td>
+              <td>VHR, S2 (NDVI Time Series)</td>
+              <td>Combines public maps & NDVI series for temporal sequence detection of ag. geometries.</td>
+            </tr>
+            <tr>
+              <td>Fractal ResUNet for Field Boundary Extraction <a href="#ref-waldner2020deep" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Fractal ResUNet (modified U-Net)</td>
+              <td>CNN, Residual, Fractal blocks</td>
+              <td>Sentinel-2 (MR)</td>
+              <td>Fractal & residual blocks for boundary enhancement; designed for MR imagery; large scale.</td>
+            </tr>
+            <tr>
+              <td>Semantic Edge-Aware Multi-task Neural Network (SEANet) <a href="#ref-li2023using" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>SEANet</td>
+              <td>Dual-branch CNN, Multi-task</td>
+              <td>Gaofen-2, Sentinel-2</td>
+              <td>One branch for parcels, one for boundaries; multitask loss (BCE + Dice); improves class imbalance
+                handling.</td>
+            </tr>
+            <tr>
+              <td>Two-Stream Attention Network (TSANet) <a href="#ref-yan2024tsanet" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>TSANet</td>
+              <td>Dual-stream, Attention, Multi-task</td>
+              <td>MSI/Sentinel-2 (Time Series)</td>
+              <td>Each stream with boundary & parcel focus; weighted loss joining; flexible for better pixel/parcel
+                metrics.</td>
+            </tr>
+            <tr>
+              <td>Two-Flow Network (TFNet) with FastSAM Decoder <a href="#ref-10664585" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>TFNet + FastSAM Decoder</td>
+              <td>Multi-branch Hybrid CNN</td>
+              <td>SEANet dataset</td>
+              <td>Uses frozen simplified Foundation Model decoder; improved OA and GTC error vs SEANet.</td>
+            </tr>
+            <tr>
+              <td>Boundary-Field Interaction Network (BFINet) <a href="#ref-10644049" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>BFINet + Pyramid Vision Transformer Decoder</td>
+              <td>Hybrid CNN + Transformer</td>
+              <td>Different from SEANet/TFNet</td>
+              <td>Pretrained on ImageNet; refines high-level spatial features; designed for small/irregular plots;
+                OA/GTC improvement over SEANet.</td>
+            </tr>
+            <tr>
+              <td>Transfer Learning for Parcel Delineation Across Regions and Sensors <a href="#ref-kerner2024multi"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Transfer Learning CNN (not specified)</td>
+              <td>Transfer Learning</td>
+              <td>Various (cross-region/cross-sensor)</td>
+              <td>Improves F1 for low-label datasets up to 6%; cross-region/sensor adaptation.</td>
+            </tr>
+            <tr>
+              <td>Unsupervised Delineation using Graph Neural Networks <a href="#ref-huang2022unsupervised"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>ConvGNN for Superpixel Aggregation</td>
+              <td>Graph Neural Network, Unsupervised</td>
+              <td>MSI/Sentinel-2</td>
+              <td>Balances spatial/spectral affinities; improved over classic unsupervised; for China.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="parcel_delineation_ssl" class="section-card">
+      <h2 class="section-title">Parcel Delineation Ssl</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>SSL Strategy</th>
+              <th>Pretraining Details</th>
+              <th>Input Data</th>
+              <th>Key Features</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Self-supervised SwAV Pretraining for Parcel Delineation <a href="#ref-calhoun2022self"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>SwAV + CNN</td>
+              <td>Non-Contrastive SSL (SwAV)</td>
+              <td>SwAV self-supervised pretraining on ImageNet, compared to supervised ImageNet pretraining</td>
+              <td>Agricultural parcel imagery (various)</td>
+              <td>Consistent gains in low-label scenarios; demonstrates benefits of self-supervised vs. supervised
+                ImageNet pretraining</td>
+              <td>SwAV SSL outperforms supervised pretraining for agricultural Parcel Delineation, especially with
+                limited data</td>
+            </tr>
+            <tr>
+              <td>Self-Supervised DINO-ViT for Land Cover and Parcel Tasks <a
+                  href="#ref-moore2023selfsupervisedapproachlandcover" class="icon-link" title="Ver citação">📚</a></td>
+              <td>DINO ViT (frozen backbone)</td>
+              <td>Non-Contrastive SSL (DINO)</td>
+              <td>DINO self-supervised pretraining on ImageNet; ViT backbone frozen during downstream</td>
+              <td>Land use/land cover, parcel imagery</td>
+              <td>Highlights need for domain-specific SSL datasets; ViT-based approaches for RS tasks</td>
+              <td>Recommends RS-specific SSL over ImageNet; effective for LULC and Parcel Delineation tasks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="crop_mapping_post-harvest" class="section-card">
+      <h2 class="section-title">Crop Mapping Post-Harvest</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>Input Data</th>
+              <th>Key Features</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sentinel-2 Crop Type Mapping Using 3D CNN Feature Pyramid Network <a href="#ref-gallo2021sentinel"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>3D CNN Feature Pyramid Network</td>
+              <td>MSI/Sentinel-2 SITS (multispectral time series)</td>
+              <td>Pixel-wise classification, combines CE Loss (crop class) and MSE Loss (season timing)</td>
+              <td>Designed for post-harvest mapping; predicts crop type and crop season interval</td>
+            </tr>
+            <tr>
+              <td>CNN with Attention for Hyperspectral Crop Classification <a href="#ref-farmonov2023crop"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + Attention Mechanism</td>
+              <td>Hyperspectral imagery</td>
+              <td>Long-term feature extraction, pixel-level classification, attention integration</td>
+              <td>Achieved 97.89% Overall Accuracy (OA)</td>
+            </tr>
+            <tr>
+              <td>Pre-trained ConvLSTM-VGG11 for Crop Rotation Prediction <a href="#ref-yaramasu2020pre"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>ConvLSTM (temporal encoder) + VGG11 (spatial encoder)</td>
+              <td>Landsat SITS, crop rotation history</td>
+              <td>Bidirectional LSTM for temporal, VGG for spatial; leverages crop history</td>
+              <td>Effective for post-harvest and in-season tasks; uses pre-trained weights</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="crop_mapping_in-season" class="section-card">
+      <h2 class="section-title">Crop Mapping In-Season</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>Input Data</th>
+              <th>Key Features</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Seasonal Early Crop Type Prediction with 3D CNN <a href="#ref-gallo2023season" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>3D CNN</td>
+              <td>SITS, parcel-level time series</td>
+              <td>Early prediction over time; monitors season progression</td>
+              <td>Enables parcel-level in-season crop type classification</td>
+            </tr>
+            <tr>
+              <td>Pre-trained ConvLSTM-VGG11 for In-Season Mapping <a href="#ref-yaramasu2020pre" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>ConvLSTM + VGG11</td>
+              <td>Landsat SITS</td>
+              <td>Bidirectional ConvLSTM as temporal encoder, VGG11 as spatial encoder</td>
+              <td>Can be used for in-season mapping; handles crop history</td>
+            </tr>
+            <tr>
+              <td>LSTM for Progressive Crop Classification <a href="#ref-xu2020deepcropmapping" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>LSTM</td>
+              <td>SITS, crop parcels</td>
+              <td>Allows prediction both during and after the season; small performance gap</td>
+              <td>Stable performance across early and late prediction</td>
+            </tr>
+            <tr>
+              <td>Earliness-Rewarded Loss Head for In-Season Crop Mapping <a href="#ref-russwurm2023end"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Custom Classification Head (plug-in)</td>
+              <td>SITS, tested with LSTM backbone</td>
+              <td>Multimodal, outputs classification probability by number of timestamps; earliness-rewarded loss</td>
+              <td>Predicts crops with 16–40% of SITS data (early season)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="crop_mapping_mixed" class="section-card">
+      <h2 class="section-title">Crop Mapping Mixed</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>Input Data</th>
+              <th>Key Features</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Temporal Encoding and Cross-Region Transfer with Transformers <a href="#ref-abbas2023towards"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Transformer-based Temporal Encoder</td>
+              <td>SITS, region transfer</td>
+              <td>Learns crop mapping in one region, adapts to different calendars/regions via transformer PE shift</td>
+              <td>Handles temporal shift between regions</td>
+            </tr>
+            <tr>
+              <td>Interpretability of Crop Mapping: Band Importance and Temporal Attention <a href="#ref-xu2024new"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Various (Interpretability analysis)</td>
+              <td>SITS</td>
+              <td>Band importance, shows SWIR1 (1600nm) as critical; analyzes prediction timestamps</td>
+              <td>Last timestamps most used for prediction when trained full-season</td>
+            </tr>
+            <tr>
+              <td>Bayesian Active Learning for Cost-efficient Crop Mapping <a href="#ref-XU2021112599" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Bayesian Active Learning Network</td>
+              <td>SITS, crop parcels</td>
+              <td>Selects most informative samples for labeling; reduces annotation costs</td>
+              <td>Increases dataset info gain, helps reduce labeling effort</td>
+            </tr>
+            <tr>
+              <td>Phenological Prior Cross Entropy for Crop Classification <a href="#ref-yang2022ppce" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>PPCE (custom loss function)</td>
+              <td>SITS, NDYI, NDVI</td>
+              <td>Weights Cross Entropy based on phenology; corrects misclassifications by phenological likelihood</td>
+              <td>Prioritizes correction of phenologically likely errors</td>
+            </tr>
+            <tr>
+              <td>Fusion of Optical, SAR, and Climatic Data for Crop Mapping <a href="#ref-mena2023comparative"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Data Fusion with Feature Gates</td>
+              <td>Optical, SAR, climatological data</td>
+              <td>Feature-level fusion, gated mechanism</td>
+              <td>0.34% accuracy improvement with fusion</td>
+            </tr>
+            <tr>
+              <td>Data Augmentation with CTGAN for Crop Mapping <a href="#ref-mirzaei2023enhancing" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Conditional Tabular GAN (CTGAN)</td>
+              <td>SAR, optical (tabular features)</td>
+              <td>Synthesizes data for underrepresented classes; fusion of SAR & optical</td>
+              <td>Enhances class balance in training data</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="crop_mapping_ssl" class="section-card">
+      <h2 class="section-title">Crop Mapping Ssl</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>SSL Strategy</th>
+              <th>Pretraining Details</th>
+              <th>Input Data</th>
+              <th>Key Features</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Self-Supervised Pretraining for Crop Mapping with SITS-MoCo <a href="#ref-xu2024self"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>SITS-MoCo (Transformer backbone)</td>
+              <td>Contrastive SSL (MoCo)</td>
+              <td>Domain-specific augmentations: random band removal/switch, series displacement, timestamp change; band
+                values as input, DoY as positional encoding, NDVI Seq2Vec pooling</td>
+              <td>SITS, band values, NDVI</td>
+              <td>State-of-the-art for post-harvest; outperforms MIM models; classification head uses pooled features
+              </td>
+              <td>Best results compared to SITS-BERT/SITS-Former; strong augmentation scheme</td>
+            </tr>
+            <tr>
+              <td>Masked Image Modeling for Crop Mapping: SITS-BERT <a href="#ref-yuan2020self" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>SITS-BERT (Transformer)</td>
+              <td>Masked Image Modeling (MIM)</td>
+              <td>Masks high-value pixels to simulate clouds; reconstructs pixel SITS; custom positional encoding for
+                DoY</td>
+              <td>SITS, pixel time series, NDVI</td>
+              <td>BERT-style masked prediction; integrates agricultural calendar into positional encoding</td>
+              <td>Large performance gain with SSL (≈10% OA); strong for post-harvest mapping</td>
+            </tr>
+            <tr>
+              <td>SITS-Former: Convolutional Transformer for SITS Patches <a href="#ref-yuan2022sits" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>SITS-Former (Convolutional Transformer)</td>
+              <td>Masked Image Modeling (MIM)</td>
+              <td>Handles 5x5 pixel patches; reconstructs center pixel from context; similar to SITS-BERT, but spatially
+                aware</td>
+              <td>SITS patches, NDVI</td>
+              <td>Spatial context learning; improves over SITS-BERT for post-harvest</td>
+              <td>1.7% OA improvement over SITS-BERT</td>
+            </tr>
+            <tr>
+              <td>SITSMamba: Dual-Stream SSL with Mamba and Crop Map <a href="#ref-qin2024sitsmamba" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>SITSMamba (Mamba + Dual Stream)</td>
+              <td>Masked Sequence Reconstruction & Classification (Simultaneous)</td>
+              <td>End-to-end with crop map and SITS reconstruction; Mamba reduces complexity vs. Transformer; increasing
+                loss weight for late timestamps</td>
+              <td>SITS, NDVI</td>
+              <td>Simultaneous reconstruction and crop mapping; innovative Mamba architecture (linear complexity);
+                dual-branch design</td>
+              <td>74.16% OA (PASTIS); 1% OA gain from reconstruction branch; not directly compared to transformer
+                baselines</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="crop_yield" class="section-card">
+      <h2 class="section-title">Crop Yield</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Model / Architecture</th>
+              <th>Learning Type</th>
+              <th>Input Data</th>
+              <th>Crop(s)</th>
+              <th>Key Features / Innovation</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Extreme Gradient Boosting (XGBoost) versus Deep Learning for Soybean Yield <a
+                  href="#ref-huber2022extreme" class="icon-link" title="Ver citação">📚</a></td>
+              <td>XGBoost, CNN, CNN-LSTM</td>
+              <td>Shallow vs. Deep Learning</td>
+              <td>Satellite imagery, Weather</td>
+              <td>Soybean</td>
+              <td>Compares shallow (XGBoost) and deep (CNN, CNN-LSTM) approaches</td>
+              <td>XGBoost outperforms DL on small datasets, but DL can improve with more data</td>
+            </tr>
+            <tr>
+              <td>Shallow vs. Deep Learning for Barley, Durum and Soft Wheat Yield <a href="#ref-sabo2023deeper"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Shallow Learning, Deep Learning</td>
+              <td>Shallow vs. Deep Learning</td>
+              <td>Yield records, Satellite imagery</td>
+              <td>Barley, Durum, Soft Wheat</td>
+              <td>Direct experimental comparison on small datasets</td>
+              <td>Shallow models perform better due to small dataset size</td>
+            </tr>
+            <tr>
+              <td>LSTM for Winter Wheat Forecast Using MSI/Sentinel-2 <a href="#ref-cheng2022wheat" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>LSTM, Random Forest, Gradient Boosting, SVR</td>
+              <td>Deep vs. Shallow Learning</td>
+              <td>MSI/Sentinel-2, Weather</td>
+              <td>Winter Wheat</td>
+              <td>Compares traditional and deep models; temporal modeling</td>
+              <td>LSTM outperforms other methods for winter wheat</td>
+            </tr>
+            <tr>
+              <td>Hybrid Deep Feature Extractor and Fuzzy Bagging Classifier <a href="#ref-ilyas2023automated"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Hybrid Deep Feature + Fuzzy Bagging (Shallow Ensemble)</td>
+              <td>Hybrid (Deep + Shallow)</td>
+              <td>Satellite imagery, Climate data</td>
+              <td>Flaxseed, Lentils, Rice, Sugarcane, Wheat</td>
+              <td>Uses DL for features, shallow ensemble for regression; generalization focus</td>
+              <td>Handles limited data and improves generalization</td>
+            </tr>
+            <tr>
+              <td>Bayesian Neural Network for US Corn Belt Yield <a href="#ref-ma2021multi" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Bayesian Neural Network</td>
+              <td>Deep Learning (Uncertainty-aware)</td>
+              <td>MSI/Sentinel-2, Weather</td>
+              <td>Corn</td>
+              <td>Bayesian inference, facilitates transfer learning</td>
+              <td>Allows successful transfer to new regions</td>
+            </tr>
+            <tr>
+              <td>Attention-based CNN BiGRU for County-Level Soybean Yield <a href="#ref-lu2024goa" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN-BiGRU + Attention</td>
+              <td>Deep Learning (Attention + RNN)</td>
+              <td>SR data, Climate data, Photosynthetic parameters</td>
+              <td>Soybean</td>
+              <td>Combines CNN for spatial, BiGRU for temporal, plus attention</td>
+              <td>County-level prediction for USA; integrates multiple features</td>
+            </tr>
+            <tr>
+              <td>End-to-end CNN for Soy and Corn Yield Prediction <a href="#ref-khaki2021simultaneous"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>End-to-end CNN, Dual Regression Heads</td>
+              <td>Deep Learning (Multi-task)</td>
+              <td>Remote Sensing</td>
+              <td>Soy, Corn</td>
+              <td>Shared backbone, simultaneous prediction of multiple crops</td>
+              <td>Predicts yield and harvest timing</td>
+            </tr>
+            <tr>
+              <td>Deep Transfer Learning for Cross-country Soybean Yield <a href="#ref-huber2024leveraging"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + Transfer Learning</td>
+              <td>Deep Learning (Transfer Learning)</td>
+              <td>MSI/Sentinel-2</td>
+              <td>Soybean</td>
+              <td>Adapts US-trained model to Argentina, mitigates catastrophic forgetting</td>
+              <td>Effective adaptation between countries</td>
+            </tr>
+            <tr>
+              <td>Mixed LSTM-CNN with MODIS and Meteorological Data for Early Prediction <a
+                  href="#ref-jeong2022predicting" class="icon-link" title="Ver citação">📚</a></td>
+              <td>LSTM-CNN (Mixed)</td>
+              <td>Deep Learning (Hybrid)</td>
+              <td>MODIS, Meteorological, Geographic (coordinates, country ID)</td>
+              <td>Unspecified</td>
+              <td>Handles multiple modalities, early (2 months before harvest)</td>
+              <td>Early prediction; mixed features</td>
+            </tr>
+            <tr>
+              <td>3D CNN + Land Cover for DeepYield <a href="#ref-gavahi2021deepyield" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>3D CNN + LSTM, Land Cover Integration</td>
+              <td>Deep Learning (Hybrid)</td>
+              <td>MODIS, Land Cover</td>
+              <td>Unspecified</td>
+              <td>3D CNN with LSTM, uses land cover</td>
+              <td>Improved accuracy using additional land cover info</td>
+            </tr>
+            <tr>
+              <td>Integrating LSTM and Shallow Models for County-level Cotton <a href="#ref-lang2023integrating"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>LSTM, Shallow Models</td>
+              <td>Deep vs. Shallow Learning</td>
+              <td>County-level SITS</td>
+              <td>Cotton</td>
+              <td>Comparison study; deep temporal vs shallow static</td>
+              <td>LSTM better for early cotton prediction</td>
+            </tr>
+            <tr>
+              <td>Transformer + Conv for Early Rice Yield <a href="#ref-liu2022rice" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Transformer + Conv Layer</td>
+              <td>Deep Learning (Attention)</td>
+              <td>Satellite, Environmental</td>
+              <td>Rice</td>
+              <td>Attention explainability, predicts yield 2 months before harvest</td>
+              <td>Analyzes attention maps for explainability</td>
+            </tr>
+            <tr>
+              <td>Multi-Modal Spatial-Temporal Vision Transformer for Yield (MMST) <a href="#ref-lin2023mmst"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Multi-Modal Spatial-Temporal Vision Transformer (MMST)</td>
+              <td>Self-Supervised, Deep Learning</td>
+              <td>Sentinel-2, Weather data</td>
+              <td>Multiple</td>
+              <td>Contrastive SSL pretraining (SimCLR baseline), climate-aware multimodal</td>
+              <td>Outperforms ConvLSTM on diverse RS data; leverages pretraining</td>
+            </tr>
+            <tr>
+              <td>Survey: Challenges in Crop Yield Prediction and Generalization <a href="#ref-goel2024crop"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Survey/Review</td>
+              <td>Shallow + Deep Learning Overview</td>
+              <td>N/A</td>
+              <td>General</td>
+              <td>Discusses generalization limits, dataset scarcity, lack of standardized benchmarks</td>
+              <td>Highlights need for open data and comparability</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="LULC" class="section-card">
+      <h2 class="section-title">Lulc</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Approach</th>
+              <th>Model / Architecture</th>
+              <th>Input Data</th>
+              <th>Key Features / Innovation</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Shallow Learning vs. Feedforward Neural Network for LULC <a href="#ref-abdi2020land" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Shallow Learning</td>
+              <td>SVM, XGBoost, RF, FFN (Tanh)</td>
+              <td>MSI/Sentinel-2 Time Series</td>
+              <td>Comparison between classic ML and shallow DL for LULC; SVM outperformed others.</td>
+              <td>SVM best (OA 75.8% ± 1.7%), FFN worst (OA 73.3% ± 0.23%)</td>
+            </tr>
+            <tr>
+              <td>Deep-Shallow Learning with CNN-derived Features <a href="#ref-dou2024large" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Hybrid (Deep-Shallow)</td>
+              <td>CNN (feature extractor) + Shallow Classifiers + final CNN</td>
+              <td>Landsat Multispectral</td>
+              <td>CNN extracts deep features for SL classifiers; outputs fed to final CNN.</td>
+              <td>OA 88.95% vs. 84.97% (1D-CNN); robust for limited multispectral bands.</td>
+            </tr>
+            <tr>
+              <td>Fully Convolutional Segmentation Network for HSI <a href="#ref-CNN_sun2021supervised"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN</td>
+              <td>FCSN (Fully Conv. Segmentation Net)</td>
+              <td>Hyperspectral Images (HSI)</td>
+              <td>End-to-end segmentation; classifies all pixels in HSI cubes at once.</td>
+              <td>Improved generalization and finer labeling vs. pixelwise CNNs.</td>
+            </tr>
+            <tr>
+              <td>Interactive Segmentation Network for Land Cover Mapping <a href="#ref-CNN_xu2022land"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN</td>
+              <td>Interactive Segmentation CNN</td>
+              <td>High-Resolution Images</td>
+              <td>Leverages user input for refining LULC segmentation.</td>
+              <td>Better accuracy than fully automatic methods.</td>
+            </tr>
+            <tr>
+              <td>Multiscale Feature Reconstruction and Interclass Attention for LULC <a href="#ref-CNN_zhan2023multi"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + Attention</td>
+              <td>CNN with Multiscale & Interclass Attention</td>
+              <td>High-Resolution Images</td>
+              <td>Handles ambiguous boundaries; uses attention for interclass separation.</td>
+              <td>Improved boundary and intraclass variance handling.</td>
+            </tr>
+            <tr>
+              <td>3D CNNs and Vision Transformers for Spatio-temporal RS Series <a href="#ref-CNN_zhao2022cnn"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + ViT</td>
+              <td>3D CNNs, Vision Transformers (ViT)</td>
+              <td>RS Time Series (optical + SAR)</td>
+              <td>Comparative study: 3D CNNs and ViTs best for spatiotemporal representation.</td>
+              <td>ViT and 3D CNN outperform older methods.</td>
+            </tr>
+            <tr>
+              <td>Wavelet-Attention CNN for Crop Type Mapping <a href="#ref-AT_farmonov2023crop" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN + Attention</td>
+              <td>CNN with Wavelet-Spectral Attention</td>
+              <td>HSI, Crop Monitoring</td>
+              <td>Wavelet & attention modules improve crop mapping via HSI.</td>
+              <td>Attention improves spatial-spectral feature extraction.</td>
+            </tr>
+            <tr>
+              <td>Global Joint Attention Mechanism in CNNs for LULC <a href="#ref-AT_zhu2021spectral" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN + Attention</td>
+              <td>CNN + Global Joint Attention</td>
+              <td>HSI, Challenging Conditions</td>
+              <td>Improved feature discrimination under adverse scenarios.</td>
+              <td>Superior accuracy in difficult classification settings.</td>
+            </tr>
+            <tr>
+              <td>Rotation-Invariant Attention for HSI Classification <a href="#ref-AT_zheng2022rotation"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + Attention</td>
+              <td>Rotation-Invariant Attention Network</td>
+              <td>HSI Data</td>
+              <td>Tackles rotational variance with attention modules.</td>
+              <td>Robust classification against rotated samples.</td>
+            </tr>
+            <tr>
+              <td>CNN and Transformer Fusion for LULC <a href="#ref-TRAN_sun2022spectral" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN + Transformer</td>
+              <td>CNN + Transformer Encoder</td>
+              <td>3D/2D Conv Features, Gaussian-weighted tokenizer</td>
+              <td>3D/2D Conv for features, Transformer for deep rep.; better semantics, lower cost.</td>
+              <td>Improved semantic features vs. CNN baseline.</td>
+            </tr>
+            <tr>
+              <td>Multimodal Position-shared ViT for LULC <a href="#ref-yao2023extended" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Transformer (Multimodal)</td>
+              <td>Position-shared ViTs + Separable Conv</td>
+              <td>Hyperspectral, LiDAR, Multimodal RS</td>
+              <td>Parallel ViTs for multimodal fusion, each branch for a data type.</td>
+              <td>OA 88.95% (multimodal) vs. 87.71% (HSI only).</td>
+            </tr>
+            <tr>
+              <td>Contrastive SSL with MoCo for LULC Segmentation <a
+                  href="#ref-tarasiou2022embeddingearthselfsupervisedcontrastive" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Self-Supervised (Contrastive)</td>
+              <td>MoCo-based Contrastive SSL</td>
+              <td>Time Series RS Images</td>
+              <td>Positive pairs: georeferenced pixel in series; negatives: all others. Domain-specific augs.</td>
+              <td>Up to 25% absolute mIoU gain vs. non-pretrained model.</td>
+            </tr>
+            <tr>
+              <td>SwAV Pretraining for Agricultural Parcel/LULC <a href="#ref-calhoun2022self" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Self-Supervised (Non-Contrastive)</td>
+              <td>SwAV + CNN</td>
+              <td>Agricultural parcel imagery, ImageNet</td>
+              <td>SwAV pretraining on ImageNet vs. supervised ImageNet.</td>
+              <td>SSL better than supervised, especially with small labeled sets.</td>
+            </tr>
+            <tr>
+              <td>DINO ViT for Self-Supervised LULC <a href="#ref-moore2023selfsupervisedapproachlandcover"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Self-Supervised (Non-Contrastive)</td>
+              <td>DINO-pretrained ViT (frozen backbone)</td>
+              <td>LULC, RS Imagery, ImageNet</td>
+              <td>Highlights domain-specific SSL over generic ImageNet SSL.</td>
+              <td>Effective for LULC and parcel delineation.</td>
+            </tr>
+            <tr>
+              <td>MAE-based ViT Fusion for LULC (Hybrid Shallow-Deep) <a href="#ref-XUE2025110959" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Self-Supervised (MIM/Hybrid)</td>
+              <td>MAE ViT + Shallow Classifier</td>
+              <td>Hyperspectral multitemporal, height, VHR images</td>
+              <td>Cross-attention among inputs, MAE pretraining, shallow learning on frozen ViT features.</td>
+              <td>Hybrid shallow-deep; cross-attention for fusion.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="change_detection" class="section-card">
+      <h2 class="section-title">Change Detection</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Paper Title</th>
+              <th>Approach</th>
+              <th>Model / Architecture</th>
+              <th>Input Data</th>
+              <th>Key Features / Innovation</th>
+              <th>Performance / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Siamese/Symmetric Networks for Change Detection <a href="#ref-li2021combined" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN (Siamese/Symmetric)</td>
+              <td>Siamese CNN, Symmetric Net</td>
+              <td>Optical/SAR/Multispectral pairs</td>
+              <td>Compares two images; learns change-specific features.</td>
+              <td>Widely used for building, agriculture, flood detection.</td>
+            </tr>
+            <tr>
+              <td>SNUNet3+: Deep Symmetric U-Net for Change Detection <a href="#ref-miao2023snunet3+" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN (U-Net)</td>
+              <td>SNUNet3+ (U-Net-based)</td>
+              <td>Optical/SAR</td>
+              <td>Enhanced U-Net; symmetric input; robust for pixelwise changes.</td>
+              <td>Performs well on classic change detection benchmarks.</td>
+            </tr>
+            <tr>
+              <td>SMADS: U-Net for Agricultural Change <a href="#ref-huang2023smads" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN (U-Net)</td>
+              <td>SMADS (U-Net-based)</td>
+              <td>Agricultural VHR images</td>
+              <td>Specialized for agricultural change with small plots.</td>
+              <td>Robust to spatial detail and label noise.</td>
+            </tr>
+            <tr>
+              <td>Deep Cascade Network for SAR Change Detection <a href="#ref-gao2019change" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>CNN (Residual/Fusion)</td>
+              <td>Deep Cascade, Residual Fusion</td>
+              <td>SAR</td>
+              <td>Handles speckle noise; residual fusion; deep network.</td>
+              <td>Improved SAR change detection in farmland.</td>
+            </tr>
+            <tr>
+              <td>CSANet: Self and Cross-temporal Attention for HSI Change <a href="#ref-song2022csanet"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>CNN + Attention</td>
+              <td>Symmetric CNN + Self/Cross Attention</td>
+              <td>HSI, Multi-temporal</td>
+              <td>Bi-temporal attention on each image & cross-image features.</td>
+              <td>SOTA for irrigated/wetland agri and river movement datasets.</td>
+            </tr>
+            <tr>
+              <td>ResNet-Transformer Hybrid for Remote Sensing Change Detection <a href="#ref-chen2021remote"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Hybrid (CNN + Transformer)</td>
+              <td>Symmetric ResNet + Transformer Encoder-Decoder + FCN</td>
+              <td>Optical, SAR, Multimodal</td>
+              <td>Semantic feature highlighting; FCN pixel classification.</td>
+              <td>Strong for city, river, and region change.</td>
+            </tr>
+            <tr>
+              <td>Swin Transformer with Progressive Attention for Change Detection <a href="#ref-yan2023transy"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Transformer</td>
+              <td>Symmetric Swin Transformer + Progressive Attention Module</td>
+              <td>Optical, SAR, Multi-temporal</td>
+              <td>Transformer backbone; progressive attention; pixelwise.</td>
+              <td>Better results than ResNet-hybrids.</td>
+            </tr>
+            <tr>
+              <td>Unsupervised Symmetric Network for Change Detection <a href="#ref-du2019unsupervised"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Unsupervised CNN</td>
+              <td>Symmetric CNN (pseudo-labeling)</td>
+              <td>Optical/SAR/HSI pairs</td>
+              <td>High-confidence pixels for pseudo-label generation.</td>
+              <td>Enables unsupervised CD with strong results.</td>
+            </tr>
+            <tr>
+              <td>Unsupervised GNN with Metric Learning for Change Detection <a href="#ref-tang2021unsupervised"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>Unsupervised GNN</td>
+              <td>Graph Neural Network + Metric Learning</td>
+              <td>Optical/SAR pairs</td>
+              <td>Pseudo-labels with GNN & metric learning.</td>
+              <td>Novel GNN paradigm for change detection.</td>
+            </tr>
+            <tr>
+              <td>GANs for Pixel-wise Change Detection via Image Translation <a href="#ref-hou2019w" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>GAN</td>
+              <td>GAN (Pix2Pix, U-Net++)</td>
+              <td>Optical, SAR, Multimodal</td>
+              <td>CD as image translation; pixelwise labeling.</td>
+              <td>Works on both optical and SAR modalities.</td>
+            </tr>
+            <tr>
+              <td>Concatenated Generative Pretraining + U-Net++ for CD <a href="#ref-du2023concatenated"
+                  class="icon-link" title="Ver citação">📚</a></td>
+              <td>GAN + U-Net++</td>
+              <td>GAN Pretraining, U-Net++ CD</td>
+              <td>Optical & SAR (separately pretrained)</td>
+              <td>Pretrain each modality separately, then CD with U-Net++.</td>
+              <td>Improved pixelwise detection.</td>
+            </tr>
+            <tr>
+              <td>Data Fusion for Change Detection <a href="#ref-zhao2023triple" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Fusion/Other</td>
+              <td>Fusion-based Classifier</td>
+              <td>Optical, SAR, Multimodal</td>
+              <td>Data fusion for stronger pixel-level change mapping.</td>
+              <td>Handles heterogeneity in data sources.</td>
+            </tr>
+            <tr>
+              <td>DDPM-CD: Denoising Diffusion Model for Change Detection <a
+                  href="#ref-bandara2024ddpmcddenoisingdiffusionprobabilistic" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Diffusion Model + CNN</td>
+              <td>U-Net-based Diffusion Model (Siamese-like)</td>
+              <td>RGB MSI/Sentinel-2 (before/after)</td>
+              <td>Diffusion to remove synthetic noise, classifier predicts CD map.</td>
+              <td>Can generate RS images, weights frozen for classification.</td>
+            </tr>
+            <tr>
+              <td>GCD-DDPM: Generative CD with End-to-End Diffusion <a
+                  href="#ref-wen2024gcdddpmgenerativechangedetection" class="icon-link" title="Ver citação">📚</a></td>
+              <td>Diffusion Model</td>
+              <td>Diffusion Model (End-to-End)</td>
+              <td>Multi-temporal RS</td>
+              <td>Full diffusion for CD prediction, no freezing.</td>
+              <td>Claimed as evolution of DDPM-CD.</td>
+            </tr>
+            <tr>
+              <td>Hybrid Transformer-Conv Diffusion for CD <a href="#ref-10460113" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Diffusion + Transformer-CNN</td>
+              <td>Hybrid Transformer-CNN (noise remover)</td>
+              <td>Multi-temporal RS</td>
+              <td>Hybrid model in diffusion pipeline.</td>
+              <td>Further evolution for denoising + CD.</td>
+            </tr>
+            <tr>
+              <td>Siamese Meets Diffusion for CD <a href="#ref-jia2024siamesemeetsdiffusionnetwork" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Diffusion + Siamese</td>
+              <td>Feature Extractor + Diffusion U-Net</td>
+              <td>Multi-temporal RS</td>
+              <td>Diffusion only on features, not raw images.</td>
+              <td>Variation on DDPM-CD for feature-based learning.</td>
+            </tr>
+            <tr>
+              <td>Contrastive SSL Mean Teacher for Change Detection <a href="#ref-tao2023tov" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Self-Supervised (Contrastive, Mean Teacher)</td>
+              <td>Mean Teacher Distillation + Embedding Similarity Weighting</td>
+              <td>Multi-temporal RS</td>
+              <td>Hard negative mining, teacher updated by EMA, weights negatives by similarity.</td>
+              <td>Efficient SSL CD with reduced negative samples.</td>
+            </tr>
+            <tr>
+              <td>Barlow Twins Adaptation for CD <a href="#ref-feng2024feature" class="icon-link"
+                  title="Ver citação">📚</a></td>
+              <td>Self-Supervised (Barlow Twins, Contrastive)</td>
+              <td>Barlow Twins (adapted), Custom Losses</td>
+              <td>Multi-temporal RS</td>
+              <td>Correlation matrix from before/after pairs, temporal consistency, robust to radiometric change.</td>
+              <td>Encourages learning true change; radiometric/lighting robustness.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="references" class="section-card">
+      <h2 class="section-title">References</h2>
+      <div class="reference-item" id="ref-10460113"><strong>Wen, Yihan and Zhang, Zhuo and Cao, Qi and Niu,
+          Guanchong</strong>. <em>"TransC-GD-CD: Transformer-based Conditional Generative Diffusion Change Detection
+          Model"</em>, IEEE JSTARS (2024).</div>
+      <div class="reference-item" id="ref-10644049"><strong>Zhao, Hang and Long, Jiang and Zhang, Miao and Wu, Bingfang
+          and Xu, Chenxi and Tian, Fuyou and Ma, Zonghan</strong>. <em>"Irregular Agricultural Field Delineation Using a
+          Dual-Branch Architecture from High-Resolution Remote Sensing Images"</em>, IEEE Geoscience and Remote Sensing
+        Letters (2024).</div>
+      <div class="reference-item" id="ref-10664585"><strong>Long, Jiang and Zhao, Hang and Li, Mengmeng and Wang,
+          Xiaoqin and Lu, Chengwen</strong>. <em>"Integrating Segment Anything Model Derived Boundary Prior and
+          High-Level Semantics for Cropland Extraction from High-Resolution Remote Sensing Images"</em>, IEEE Geoscience
+        and Remote Sensing Letters (2024).</div>
+      <div class="reference-item" id="ref-9393553"><strong>Long, Yang and Xia, Gui-Song and Li, Shengyang and Yang, Wen
+          and Yang, Michael Ying and Zhu, Xiao Xiang and Zhang, Liangpei and Li, Deren</strong>. <em>"On Creating
+          Benchmark Dataset for Aerial Image Interpretation: Reviews, Guidances, and Million-AID"</em>, IEEE Journal of
+        Selected Topics in Applied Earth Observations and Remote Sensing (2021).</div>
+      <div class="reference-item" id="ref-9408357"><strong>Weikmann, Giulio and Paris, Claudia and Bruzzone,
+          Lorenzo</strong>. <em>"TimeSen2Crop: A Million Labeled Samples Dataset of Sentinel 2 Image Time Series for
+          Crop-Type Classification"</em>, IEEE Journal of Selected Topics in Applied Earth Observations and Remote
+        Sensing (2021).</div>
+      <div class="reference-item" id="ref-9552024"><strong>Sumbul, Gencer and de Wall, Arne and Kreuziger, Tristan and
+          Marcelino, Filipe and Costa, Hugo and Benevides, Pedro and Caetano, Mario and Demir, Begum and Markl,
+          Volker</strong>. <em>"BigEarthNet-MM: A Large-Scale, Multimodal, Multilabel Benchmark Archive for Remote
+          Sensing Image Classification and Retrieval [Software and Data Sets]"</em>, IEEE Geoscience and Remote Sensing
+        Magazine (2021).</div>
+      <div class="reference-item" id="ref-9749916"><strong>Sykas, Dimitrios and Sdraka, Maria and Zografakis, Dimitrios
+          and Papoutsis, Ioannis</strong>. <em>"A Sentinel-2 Multi-Year, Multi-Country Benchmark Dataset for Crop
+          Classification and Segmentation with Deep Learning"</em>, IEEE Journal of Selected Topics in Applied Earth
+        Observations and Remote Sensing (2022).</div>
+      <div class="reference-item" id="ref-AT_farmonov2023crop"><strong>Farmonov, Nizom and Amankulova, Khilola and
+          Szatmari, Jozsef and Sharifi, Alireza and Abbasi-Moghadam, Dariush and Nejad, Seyed Mahdi Mirhoseini and
+          Mucsi, Laszlo</strong>. <em>"Crop Type Classification by DESIS Hyperspectral Imagery and Machine Learning
+          Algorithms"</em>, IEEE Journal of selected topics in applied earth observations and remote sensing (2023).
+      </div>
+      <div class="reference-item" id="ref-AT_zheng2022rotation"><strong>Zheng, Xiangtao and Sun, Hao and Lu, Xiaoqiang
+          and Xie, Wei</strong>. <em>"Rotation-Invariant Attention Network for Hyperspectral Image Classification"</em>,
+        IEEE Transactions on Image Processing (2022).</div>
+      <div class="reference-item" id="ref-AT_zhu2021spectral"><strong>Zhu, Qiqi and Deng, Weihuan and Zheng, Zhuo and
+          Zhong, Yanfei and Guan, Qingfeng and Lin, Weihua and Zhang, Liangpei and Li, Deren</strong>. <em>"A
+          Spectral-Spatial-Dependent Global Learning Framework for Insufficient and Imbalanced Hyperspectral Image
+          Classification"</em>, IEEE Transactions on Cybernetics (2021).</div>
+      <div class="reference-item" id="ref-CNN_sun2021supervised"><strong>Sun, Hao and Zheng, Xiangtao and Lu,
+          Xiaoqiang</strong>. <em>"A Supervised Segmentation Network for Hyperspectral Image Classification"</em>, IEEE
+        Transactions on Image Processing (2021).</div>
+      <div class="reference-item" id="ref-CNN_xu2022land"><strong>Xu, Leilei and Liu, Yujun and Shi, Shanqiu and Zhang,
+          Hao and Wang, Dan</strong>. <em>"Land-Cover Classification with High-Resolution Remote Sensing Images Using
+          Interactive Segmentation"</em>, IEEE access : practical innovations, open solutions (2022).</div>
+      <div class="reference-item" id="ref-CNN_zhan2023multi"><strong>Zhan, Zongqian and Xiong, Zirou and Huang, Xin and
+          Yang, Chun and Liu, Yi and Wang, Xin</strong>. <em>"Multi-Scale Feature Reconstruction and Inter-Class
+          Attention Weighting for Land Cover Classification"</em>, IEEE Journal of Selected Topics in Applied Earth
+        Observations and Remote Sensing (2023).</div>
+      <div class="reference-item" id="ref-CNN_zhao2022cnn"><strong>Zhao, Linying and Ji, Shunping</strong>. <em>"CNN,
+          RNN, or ViT? An Evaluation of Different Deep Learning Architectures for Spatio-Temporal Representation of
+          Sentinel Time Series"</em>, IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing
+        (2022).</div>
+      <div class="reference-item" id="ref-Chen2020"><strong>Chen, Hao and Shi, Zhenwei</strong>. <em>"A Spatial-Temporal
+          Attention-Based Method and a New Dataset for Remote Sensing Image Change Detection"</em>, Remote Sensing
+        (2020).</div>
+      <div class="reference-item" id="ref-Christie_2018_CVPR"><strong>Christie, Gordon and Fendley, Neil and Wilson,
+          James and Mukherjee, Ryan</strong>. <em>"Functional map of the world"</em>, Proceedings of the IEEE Conference
+        on Computer Vision and Pattern Recognition (2018).</div>
+      <div class="reference-item" id="ref-FBP2023"><strong>Tong, Xin-Yi and Xia, Gui-Song and Zhu, Xiao Xiang</strong>.
+        <em>"Enabling Country-Scale Land Cover Mapping with Meter-Resolution Satellite Imagery"</em>, ISPRS Journal of
+        Photogrammetry and Remote Sensing (2023).
+      </div>
+      <div class="reference-item" id="ref-GlobalFieldID"><strong>Varda</strong>. <em>"Global FieldID Dataset"</em>
+        (2024).</div>
+      <div class="reference-item" id="ref-LIU201761"><strong>Liu, Xing and Jacobs, Elin and Kumar, Anil and Biehl, Larry
+          and Andresen, Jeff and Niyogi, Dev</strong>. <em>"The Purdue Agro-Climatic (PAC) Dataset for the U.S. Corn
+          Belt: Development and Initial Results"</em>, Climate Risk Management (2017).</div>
+      <div class="reference-item" id="ref-Manas_2021_ICCV"><strong>Manas, Oscar and Lacoste, Alexandre and Giro-i-Nieto,
+          Xavier and Vazquez, David and Rodr\'iguez, Pau</strong>. <em>"Seasonal Contrast: Unsupervised Pre-Training
+          from Uncurated Remote Sensing Data"</em>, Proceedings of the IEEE/CVF International Conference on Computer
+        Vision (ICCV) (2021).</div>
+      <div class="reference-item" id="ref-Sani_2024_WACV"><strong>Sani, Depanshu and Mahato, Sandeep and Saini, Sourabh
+          and Agarwal, Harsh Kumar and Devshali, Charu Chandra and Anand, Saket and Arora, Gaurav and Jayaraman,
+          Thiagarajan</strong>. <em>"SICKLE: A Multi-Sensor Satellite Imagery Dataset Annotated with Multiple Key
+          Cropping Parameters"</em>, Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision
+        (WACV) (2024).</div>
+      <div class="reference-item" id="ref-TRAN_sun2022spectral"><strong>Sun, Le and Zhao, Guangrui and Zheng, Yuhui and
+          Wu, Zebin</strong>. <em>"Spectral-Spatial Feature Tokenization Transformer for Hyperspectral Image
+          Classification"</em>, IEEE Transactions on Geoscience and Remote Sensing (2022).</div>
+      <div class="reference-item" id="ref-XU2021112599"><strong>Xu, Jinfan and Yang, Jie and Xiong, Xingguo and Li,
+          Haifeng and Huang, Jingfeng and Ting, K.C. and Ying, Yibin and Lin, Tao</strong>. <em>"Towards Interpreting
+          Multi-Temporal Deep Learning Models in Crop Mapping"</em>, Remote Sensing of Environment (2021).</div>
+      <div class="reference-item" id="ref-XUE2025110959"><strong>Xue, Zhixiang and Yang, Guopeng and Yu, Xuchu and Yu,
+          Anzhu and Guo, Yinggang and Liu, Bing and Zhou, Jianan</strong>. <em>"Multimodal Self-Supervised Learning for
+          Remote Sensing Data Land Cover Classification"</em>, Pattern Recognition (2025).</div>
+      <div class="reference-item" id="ref-ZHANG2020183"><strong>Zhang, Chenxiao and Yue, Peng and Tapete, Deodato and
+          Jiang, Liangcun and Shangguan, Boyi and Huang, Li and Liu, Guangchao</strong>. <em>"A Deeply Supervised Image
+          Fusion Network for Change Detection in High Resolution Bi-Temporal Remote Sensing Images"</em>, ISPRS Journal
+        of Photogrammetry and Remote Sensing (2020).</div>
+      <div class="reference-item" id="ref-abbas2023towards"><strong>Abbas, Adel and Linardi, Michele and Vareille,
+          Etienne and Christophides, Vassillis and Paris, Claudia</strong>. <em>"Towards Explainable AI4EO: An
+          Explainable Deep Learning Approach for Crop Type Mapping Using Satellite Images Time Series"</em>, IGARSS
+        (2023).</div>
+      <div class="reference-item" id="ref-abdi2020land"><strong>Abdi, Abdulhakim Mohamed</strong>. <em>"Land Cover and
+          Land Use Classification Performance of Machine Learning Algorithms in a Boreal Landscape Using Sentinel-2
+          Data"</em>, GIScience \& Remote Sensing (2020).</div>
+      <div class="reference-item" id="ref-astruc2024omnisat"><strong>Astruc, Guillaume and Gonthier, Nicolas and Mallet,
+          Clement and Landrieu, Loic</strong>. <em>"OmniSat: Self-supervised Modality Fusion for Earth
+          Observation"</em>, ECCV (2024).</div>
+      <div class="reference-item" id="ref-azv7-ta17-20"><strong>Caye Daudt, Rodrigo and Le Saux, Bertrand and Boulch,
+          Alexandre and Gousseau, Yann</strong>. <em>"HRSCD - High Resolution Semantic Change Detection Dataset"</em>
+        (2020).</div>
+      <div class="reference-item" id="ref-bandara2024ddpmcddenoisingdiffusionprobabilistic"><strong>Bandara, Wele Gedara
+          Chaminda and Nair, Nithin Gopalakrishnan and Patel, Vishal M.</strong>. <em>"DDPM-CD: Denoising Diffusion
+          Probabilistic Models as Feature Extractors for Change Detection"</em> (2024).</div>
+      <div class="reference-item" id="ref-bastani2023satlaspretrain"><strong>Bastani, Favyen and Wolters, Piper and
+          Gupta, Ritwik and Ferdinando, Joe and Kembhavi, Aniruddha</strong>. <em>"Satlaspretrain: A Large-Scale Dataset
+          for Remote Sensing Image Understanding"</em>, Proceedings of the IEEE/CVF International Conference on Computer
+        Vision (2023).</div>
+      <div class="reference-item" id="ref-breizhcrops2020"><strong>Russwurm, Marc and Pelletier, Charlotte and Zollner,
+          Maximilian and Lefevre, Sebastien and K\orner, Marco</strong>. <em>"BreizhCrops: A Time Series Dataset for
+          Crop Type Mapping"</em>, International Archives of the Photogrammetry, Remote Sensing and Spatial Information
+        Sciences ISPRS (2020) (2020).</div>
+      <div class="reference-item" id="ref-calhoun2022self"><strong>Calhoun, Zachary D. and Lahrichi, Saad and Ren,
+          Simiao and Malof, Jordan M. and Bradbury, Kyle</strong>. <em>"Self-Supervised Encoders Are Better Transfer
+          Learners in Remote Sensing Applications"</em>, Remote Sensing (2022).</div>
+      <div class="reference-item" id="ref-chen2021remote"><strong>Chen, Hao and Qi, Zipeng and Shi, Zhenwei</strong>.
+        <em>"Remote Sensing Image Change Detection with Transformers"</em>, IEEE TGRS (2021).
+      </div>
+      <div class="reference-item" id="ref-cheng2022wheat"><strong>Cheng, Enhui and Zhang, Bing and Peng, Dailiang and
+          Zhong, Liheng and Yu, Le and Liu, Yao and Xiao, Chenchao and Li, Cunjun and Li, Xiaoyi and Chen, Yue and
+          others</strong>. <em>"Wheat Yield Estimation Using Remote Sensing Data Based on Machine Learning
+          Approaches"</em>, Frontiers in Plant Science (2022).</div>
+      <div class="reference-item" id="ref-clasen2024reben"><strong>Clasen, Kai Norman and Hackel, Leonard and Burgert,
+          Tom and Sumbul, Gencer and Demir, Beg\um and Markl, Volker</strong>. <em>"REBEN: Refined Bigearthnet Dataset
+          for Remote Sensing Image Analysis"</em>, arXiv preprint arXiv:2407.03653 (2024).</div>
+      <div class="reference-item" id="ref-congFunctionalMapWorld2022"><strong>Cong, Yezhen and Khanna, Samar and Meng,
+          Chenlin and Liu, Patrick and Rozi, Erik and He, Yutong and Burke, Marshall and Lobell, David B. and Ermon,
+          Stefano</strong>. <em>"Functional Map of the World - Sentinel-2 Corresponding Images"</em> (2022).</div>
+      <div class="reference-item" id="ref-d2023ai4boundaries"><strong>d'Andrimont, Rapha\el and Claverie, Martin and
+          Kempeneers, Pieter and Muraro, Davide and Yordanov, Momchil and Peressutti, Devis and Bativ c, Matej and
+          Waldner, Franc cois</strong>. <em>"AI4Boundaries: An Open AI-ready Dataset to Map Field Boundaries with
+          Sentinel-2 and Aerial Photography"</em>, Earth System Science Data (2023).</div>
+      <div class="reference-item" id="ref-dou2024large"><strong>Dou, Peng and Shen, Huanfeng and Huang, Chunlin and Li,
+          Zhiwei and Mao, Yujun and Li, Xinghua</strong>. <em>"Large-Scale Land Use/Land Cover Extraction from Landsat
+          Imagery Using Feature Relationships Matrix Based Deep-Shallow Learning"</em>, International Journal of Applied
+        Earth Observation and Geoinformation (2024).</div>
+      <div class="reference-item" id="ref-du2019unsupervised"><strong>Du, Bo and Ru, Lixiang and Wu, Chen and Zhang,
+          Liangpei</strong>. <em>"Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote
+          Sensing Images"</em>, IEEE TGRS (2019).</div>
+      <div class="reference-item" id="ref-du2023concatenated"><strong>Du, Zhengshun and Li, Xinghua and Miao, Jianhao
+          and Huang, Yanyuan and Shen, Huanfeng and Zhang, Liangpei</strong>. <em>"Concatenated Deep Learning Framework
+          for Multi-Task Change Detection of Optical and SAR Images"</em>, IEEE JSTARS (2023).</div>
+      <div class="reference-item" id="ref-farmonov2023crop"><strong>Farmonov, Nizom and Amankulova, Khilola and
+          Szatmari, Jozsef and Sharifi, Alireza and Abbasi-Moghadam, Dariush and Nejad, Seyed Mahdi Mirhoseini and
+          Mucsi, Laszlo</strong>. <em>"Crop Type Classification by DESIS Hyperspectral Imagery and Machine Learning
+          Algorithms"</em>, IEEE Journal of selected topics in applied earth observations and remote sensing (2023).
+      </div>
+      <div class="reference-item" id="ref-feng2024feature"><strong>Feng, Wenqing and Guan, Fangli and Sun, Chenhao and
+          Xu, Wei</strong>. <em>"Feature-Differencing-Based Self-Supervised Pre-Training for Land-Use/Land-Cover Change
+          Detection in High-Resolution Remote Sensing Images"</em>, Land (2024).</div>
+      <div class="reference-item" id="ref-francis2024major"><strong>Francis, Alistair and Czerkawski, Mikolaj</strong>.
+        <em>"Major TOM: Expandable datasets for earth observation"</em>, IGARSS 2024-2024 IEEE International Geoscience
+        and Remote Sensing Symposium (2024).
+      </div>
+      <div class="reference-item" id="ref-fudong:kdd24:crop_net"><strong>Lin, Fudong and Guillot, Kaleb and Crawford,
+          Summer and Zhang, Yihe and Yuan, Xu and Tzeng, Nian-Feng</strong>. <em>"An Open and Large-Scale Dataset for
+          Multi-Modal Climate Change-Aware Crop Yield Predictions"</em>, Proceedings of the 30th ACM SIGKDD Conference
+        on Knowledge Discovery and Data Mining (KDD) (2024).</div>
+      <div class="reference-item" id="ref-gallo2021sentinel"><strong>Gallo, Ignazio and La Grassa, Riccardo and Landro,
+          Nicola and Boschetti, Mirco</strong>. <em>"Sentinel 2 Time Series Analysis with 3d Feature Pyramid Network and
+          Time Domain Class Activation Intervals for Crop Mapping"</em>, ISPRS International Journal of Geo-Information
+        (2021).</div>
+      <div class="reference-item" id="ref-gallo2022in_season"><strong>Gallo, Ignazio and Ranghetti, Luigi and Landro,
+          Nicola and La Grassa, Riccardo and Boschetti, Mirco</strong>. <em>"In-Season and Dynamic Crop Mapping Using 3D
+          Convolution Neural Networks and Sentinel-2 Time Series"</em>, ISPRS Journal of Photogrammetry and Remote
+        Sensing (2023).</div>
+      <div class="reference-item" id="ref-gallo2023season"><strong>Gallo, Ignazio and Ranghetti, Luigi and Landro,
+          Nicola and La Grassa, Riccardo and Boschetti, Mirco</strong>. <em>"In-Season and Dynamic Crop Mapping Using 3D
+          Convolution Neural Networks and Sentinel-2 Time Series"</em>, ISPRS Journal of Photogrammetry and Remote
+        Sensing (2023).</div>
+      <div class="reference-item" id="ref-gao2019change"><strong>Gao, Yunhao and Gao, Feng and Dong, Junyu and Wang,
+          Shengke</strong>. <em>"Change Detection from Synthetic Aperture Radar Images Based on Channel Weighting-Based
+          Deep Cascade Network"</em>, IEEE JSTARS (2019).</div>
+      <div class="reference-item" id="ref-garnot2021panoptic"><strong>Sainte Fare Garnot, Vivien and Landrieu,
+          Loic</strong>. <em>"Panoptic Segmentation of Satellite Image Time Series with Convolutional Temporal Attention
+          Networks"</em>, ICCV (2021).</div>
+      <div class="reference-item" id="ref-gavahi2021deepyield"><strong>Gavahi, Keyhan and Abbaszadeh, Peyman and
+          Moradkhani, Hamid</strong>. <em>"DeepYield: A Combined Convolutional Neural Network with Long Short-Term
+          Memory for Crop Yield Forecasting"</em>, Expert Systems with Applications (2021).</div>
+      <div class="reference-item" id="ref-goel2024crop"><strong>Goel, Mukulit and Pandey, Mrinal</strong>. <em>"Crop
+          Yield Prediction Using AI: A Review"</em>, International Conference on Disruptive Technologies (2024).</div>
+      <div class="reference-item" id="ref-helber2019eurosat"><strong>Helber, Patrick and Bischke, Benjamin and Dengel,
+          Andreas and Borth, Damian</strong>. <em>"Eurosat: A Novel Dataset and Deep Learning Benchmark for Land Use and
+          Land Cover Classification"</em>, IEEE Journal of Selected Topics in Applied Earth Observations and Remote
+        Sensing (2019).</div>
+      <div class="reference-item" id="ref-hou2019w"><strong>Hou, Bin and Liu, Qingjie and Wang, Heng and Wang,
+          Yunhong</strong>. <em>"From W-Net to CDGAN: Bitemporal Change Detection via Deep Learning Techniques"</em>,
+        IEEE TGRS (2019).</div>
+      <div class="reference-item" id="ref-huang2022unsupervised"><strong>Huang, Fulin and Yang, Zhicheng and Zhou, Hang
+          and Du, Chen and Wong, Andy JY and Gou, Yuchuan and Han, Mei and Lai, Jui-Hsin</strong>. <em>"Unsupervised
+          Superpixel-Driven Parcel Segmentation of Remote Sensing Images Using Graph Convolutional Network"</em>,
+        Companion Proceedings of the Web Conference (2022).</div>
+      <div class="reference-item" id="ref-huang2023smads"><strong>Huang, Yankun and Ji, Zhenyuan and Zhang, Yun and
+          Yuan, Haoxuan and Hua, Qinglong</strong>. <em>"SmaDS-SiamUnet: A Small Dual-Stream Network for Change
+          Detection of Dual-Sensor Data"</em>, IEEE GRSL (2023).</div>
+      <div class="reference-item" id="ref-huber2022extreme"><strong>Huber, Florian and Yushchenko, Artem and Stratmann,
+          Benedikt and Steinhage, Volker</strong>. <em>"Extreme Gradient Boosting for Yield Estimation Compared with
+          Deep Learning Approaches"</em>, Computers and Electronics in Agriculture (2022).</div>
+      <div class="reference-item" id="ref-huber2024leveraging"><strong>Huber, Florian and Inderka, Alvin and Steinhage,
+          Volker</strong>. <em>"Leveraging Remote Sensing Data for Yield Prediction with Deep Transfer Learning"</em>,
+        Sensors (2024).</div>
+      <div class="reference-item" id="ref-ign2022flair1"><strong>Garioud, Anatol and Gonthier, Nicolas and Landrieu,
+          Loic and De Wit, Apolline and Valette, Marion and Poupee, Marc and Giordano, Sebastien and others</strong>.
+        <em>"FLAIR: a country-scale land cover semantic segmentation dataset from multi-source optical imagery"</em>,
+        Advances in Neural Information Processing Systems (2023).
+      </div>
+      <div class="reference-item" id="ref-iizumi2020global"><strong>Iizumi, Toshichika and Sakai, Toru</strong>.
+        <em>"The Global Dataset of Historical Yields for Major Crops 1981--2016"</em>, Scientific Data (2020).
+      </div>
+      <div class="reference-item" id="ref-ilyas2023automated"><strong>Ilyas, Qazi Mudassar and Ahmad, Muneer and
+          Mehmood, Abid</strong>. <em>"Automated Estimation of Crop Yield Using Artificial Intelligence and Remote
+          Sensing Technologies"</em>, Bioengineering (2023).</div>
+      <div class="reference-item" id="ref-jeong2022predicting"><strong>Jeong, Seungtaek and Ko, Jonghan and Yeom,
+          Jong-Min</strong>. <em>"Predicting Rice Yield at Pixel Scale through Synthetic Use of Crop and Deep Learning
+          Models with Satellite Data in South and North Korea"</em>, Science of The Total Environment (2022).</div>
+      <div class="reference-item" id="ref-ji2020learning"><strong>Ji, Shunping and Zhang, Zhili and Zhang, Chi and Wei,
+          Shiqing and Lu, Meng and Duan, Yulin</strong>. <em>"Learning Discriminative Spatiotemporal Features for
+          Precise Crop Classification from Multi-Temporal Satellite Images"</em>, International Journal of Remote
+        Sensing (2020).</div>
+      <div class="reference-item" id="ref-jia2024siamesemeetsdiffusionnetwork"><strong>Jia, Jia and Lee, Geunho and
+          Wang, Zhibo and Lyu, Zhi and He, Yuchu</strong>. <em>"Siamese meets diffusion network: SMDNet for enhanced
+          change detection in high-resolution RS imagery"</em>, IEEE Journal of Selected Topics in Applied Earth
+        Observations and Remote Sensing (2024).</div>
+      <div class="reference-item" id="ref-kerner2024fields"><strong>Kerner, Hannah and Chaudhari, Snehal and Ghosh,
+          Aninda and Robinson, Caleb and Ahmad, Adeel and Choi, Eddie and Jacobs, Nathan and Holmes, Chris and Mohr,
+          Matthias and Dodhia, Rahul and others</strong>. <em>"Fields of the world: A machine learning benchmark dataset
+          for global agricultural field boundary segmentation"</em>, Proceedings of the AAAI Conference on Artificial
+        Intelligence (2025).</div>
+      <div class="reference-item" id="ref-kerner2024multi"><strong>Kerner, Hannah and Sundar, Saketh and Satish,
+          Mathan</strong>. <em>"Multi-Region Transfer Learning for Segmentation of Crop Field Boundaries in Satellite
+          Images with Limited Labels"</em>, arXiv preprint arXiv:2404.00179 (2024).</div>
+      <div class="reference-item" id="ref-khaki2021simultaneous"><strong>Khaki, Saeed and Pham, Hieu and Wang,
+          Lizhi</strong>. <em>"Simultaneous Corn and Soybean Yield Prediction from Remote Sensing Data Using Deep
+          Transfer Learning"</em>, Scientific Reports (2021).</div>
+      <div class="reference-item" id="ref-kondmann2021denethor"><strong>Kondmann, Lukas and Toker, Aysim and Russwurm,
+          Marc and Camero, Andres and Peressuti, Devis and Milcinski, Grega and Mathieu, Pierre-Philippe and Longepe,
+          Nicolas and Davis, Timothy and Marchisio, Giovanni and others</strong>. <em>"DENETHOR: The DynamicEarthNET
+          Dataset for Harmonized, Inter-Operable, Analysis-Ready, Daily Crop Monitoring from Space"</em>, NeurIPS Track
+        on Datasets and Benchmarks (2021).</div>
+      <div class="reference-item" id="ref-lacoste2024geo"><strong>Lacoste, Alexandre and Lehmann, Nils and Rodriguez,
+          Pau and Sherwin, Evan and Kerner, Hannah and L\utjens, Bj\orn and Irvin, Jeremy and Dao, David and
+          Alemohammad, Hamed and Drouin, Alexandre and others</strong>. <em>"Geo-Bench: Toward Foundation Models for
+          Earth Monitoring"</em>, Advances in Neural Information Processing Systems (2024).</div>
+      <div class="reference-item" id="ref-lang2023integrating"><strong>Lang, Ping and Zhang, Lifu and Huang, Changping
+          and Chen, Jiahua and Kang, Xiaoyan and Zhang, Ze and Tong, Qingxi</strong>. <em>"Integrating Environmental and
+          Satellite Data to Estimate County-Level Cotton Yield in Xinjiang Province"</em>, Frontiers in Plant Science
+        (2023).</div>
+      <div class="reference-item" id="ref-li2021combined"><strong>Li, Xinghua and He, Meizhen and Li, Huifang and Shen,
+          Huanfeng</strong>. <em>"A Combined Loss-Based Multiscale Fully Convolutional Network for High-Resolution
+          Remote Sensing Image Change Detection"</em>, IEEE GRSL (2021).</div>
+      <div class="reference-item" id="ref-li2023using"><strong>Li, Mengmeng and Long, Jiang and Stein, Alfred and Wang,
+          Xiaoqin</strong>. <em>"Using a Semantic Edge-Aware Multi-Task Neural Network to Delineate Agricultural Parcels
+          from Remote Sensing Images"</em>, ISPRS Journal of Photogrammetry and Remote Sensing (2023).</div>
+      <div class="reference-item" id="ref-lin2023mmst"><strong>Lin, Fudong and Crawford, Summer and Guillot, Kaleb and
+          Zhang, Yihe and Chen, Yan and Yuan, Xu and Chen, Li and Williams, Shelby and Minvielle, Robert and Xiao,
+          Xiangming and others</strong>. <em>"MMST-ViT: Climate Change-Aware Crop Yield Prediction via Multi-Modal
+          Spatial-Temporal Vision Transformer"</em>, ICCV (2023).</div>
+      <div class="reference-item" id="ref-liu2022rice"><strong>Liu, Yuanyuan and Wang, Shaoqiang and Chen, Jinghua and
+          Chen, Bin and Wang, Xiaobo and Hao, Dongze and Sun, Leigang</strong>. <em>"Rice Yield Prediction and Model
+          Interpretation Based on Satellite and Climatic Indicators Using a Transformer Method"</em>, Remote Sensing
+        (2022).</div>
+      <div class="reference-item" id="ref-lowman2024seefar"><strong>Lowman, James and Zheng, Kelly Liu and Fraser,
+          Roydon and The, Jesse Van Griensven and Valipour, Mojtaba</strong>. <em>"SeeFar: Satellite Agnostic
+          Multi-Resolution Dataset for Geospatial Foundation Models"</em>, arXiv preprint arXiv:2406.06776 (2024).</div>
+      <div class="reference-item" id="ref-lu2024goa"><strong>Lu, Jian and Fu, Hongkun and Tang, Xuhui and Liu, Zhao and
+          Huang, Jujian and Zou, Wenlong and Chen, Hui and Sun, Yue and Ning, Xiangyu and Li, Jian</strong>.
+        <em>"GOA-optimized Deep Learning for Soybean Yield Estimation Using Multi-Source Remote Sensing Data"</em>,
+        Scientific Reports (2024).
+      </div>
+      <div class="reference-item" id="ref-ma2021multi"><strong>Ma, Yuchi and Zhang, Zhou</strong>. <em>"Multi-Source
+          Unsupervised Domain Adaptation on Corn Yield Prediction"</em>, AI for Agriculture and Food Systems (2021).
+      </div>
+      <div class="reference-item" id="ref-mall_2024_10913174"><strong>Mall, Utkarsh</strong>. <em>"Change-Aware Sampling
+          and Contrastive Learning for Satellite Images"</em> (2024).</div>
+      <div class="reference-item" id="ref-mena2023comparative"><strong>Mena, Francisco and Arenas, Diego and Nuske,
+          Marlon and Dengel, Andreas</strong>. <em>"A comparative assessment of multi-view fusion learning for crop
+          classification"</em>, IEEE International Geoscience and Remote Sensing Symposium (IGARSS) (2023).</div>
+      <div class="reference-item" id="ref-miao2023snunet3+"><strong>Miao, Lizhi and Li, Xinting and Zhou, Xinxin and
+          Yao, Ling and Deng, Yamei and Hang, Tian and Zhou, Yuchao and Yang, Haozhou</strong>. <em>"SNUNet3+: A
+          Full-Scale Connected Siamese Network and a Dataset for Cultivated Land Change Detection in High-Resolution
+          Remote-Sensing Images"</em>, IEEE TGRS (2023).</div>
+      <div class="reference-item" id="ref-mirzaei2023enhancing"><strong>Mirzaei, Ali and Bagheri, Hossein and Khosravi,
+          Iman</strong>. <em>"Enhancing crop classification accuracy through synthetic SAR-optical data generation using
+          deep learning"</em>, ISPRS International Journal of Geo-Information (2023).</div>
+      <div class="reference-item" id="ref-moore2023selfsupervisedapproachlandcover"><strong>Moore, Charles and Hester,
+          Dakota</strong>. <em>"A Self-Supervised Approach to Land Cover Segmentation"</em> (2023).</div>
+      <div class="reference-item" id="ref-nedungadi2024mmearth"><strong>Nedungadi, Vishal and Kariryaa, Ankit and
+          Oehmcke, Stefan and Belongie, Serge and Igel, Christian and Lang, Nico</strong>. <em>"MMEarth: Exploring
+          multi-modal pretext tasks for geospatial representation learning"</em>, European Conference on Computer Vision
+        (2024).</div>
+      <div class="reference-item" id="ref-nyborgTimeMatchDataset2021"><strong>Nyborg, Joachim and Pelletier,
+          Charlotte</strong>. <em>"TimeMatch Dataset"</em> (2021).</div>
+      <div class="reference-item" id="ref-oldoni2020lem+"><strong>Oldoni, Lucas Volochen and Sanches, Ieda Del'Arco and
+          Picoli, Michelle Cristina A and Covre, Renan Moreira and Fronza, Jose Guilherme</strong>. <em>"LEM+ Dataset:
+          For Agricultural Remote Sensing Applications"</em>, Data in Brief (2020).</div>
+      <div class="reference-item" id="ref-osco2023segment"><strong>Osco, Lucas Prado and Wu, Qiusheng and de Lemos,
+          Eduardo Lopes and Gonc calves, Wesley Nunes and Ramos, Ana Paula Marques and Li, Jonathan and Junior, Jose
+          Marcato</strong>. <em>"The Segment Anything Model (SAM) for Remote Sensing Applications: From Zero to One
+          Shot"</em>, International Journal of Applied Earth Observation and Geoinformation (2023).</div>
+      <div class="reference-item" id="ref-qin2024sitsmamba"><strong>Qin, Xiaolei and Su, Xin and Zhang,
+          Liangpei</strong>. <em>"SITSMamba for Crop Classification Based on Satellite Image Time Series"</em>, arXiv
+        preprint arXiv:2409.09673 (2024).</div>
+      <div class="reference-item" id="ref-russwurm2023end"><strong>Russwurm, Marc and Courty, Nicolas and Emonet, Remi
+          and Lefevre, Sebastien and Tuia, Devis and Tavenard, Romain</strong>. <em>"End-to-End Learned Early
+          Classification of Time Series for in-Season Crop Type Mapping"</em>, ISPRS Journal of Photogrammetry and
+        Remote Sensing (2023).</div>
+      <div class="reference-item" id="ref-sabo2023deeper"><strong>Sabo, Filip and Meroni, Michele and Waldner, Franc
+          cois and Rembold, Felix</strong>. <em>"Is Deeper Always Better? Evaluating Deep Learning Models for Yield
+          Forecasting with Small Data"</em>, Environmental Monitoring and Assessment (2023).</div>
+      <div class="reference-item" id="ref-schmitt2019sen12ms"><strong>Schmitt, M and Hughes, LH and Qiu, C and Zhu,
+          XX</strong>. <em>"SEN12MS--A CURATED DATASET OF GEOREFERENCED MULTI-SPECTRAL SENTINEL-1/2 IMAGERY FOR DEEP
+          LEARNING AND DATA FUSION"</em>, ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information
+        Sciences (2019).</div>
+      <div class="reference-item" id="ref-selea2023agrisen"><strong>Selea, Teodora</strong>. <em>"AgriSen-COG, a
+          Multicountry, Multitemporal Large-Scale Sentinel-2 Benchmark Dataset for Crop Mapping Using Deep
+          Learning"</em>, Remote Sensing (2023).</div>
+      <div class="reference-item" id="ref-selea_agrisen-coglpisgt_2023"><strong>Selea, Teodora</strong>.
+        <em>"AgriSen-COG.LPIS.GT."</em> (2023).
+      </div>
+      <div class="reference-item" id="ref-sen12flood_dataset"><strong>Roy, Rhythm</strong>. <em>"SEN12-flood: Flood
+          Detection Dataset"</em> (2024).</div>
+      <div class="reference-item" id="ref-shi21deeply"><strong>Shi, Qian and Liu, Mengxi and Li, Shengchen and Liu,
+          Xiaoping and Wang, Fei and Zhang, Liangpei</strong>. <em>"A Deeply Supervised Attention Metric-Based Network
+          and an Open Aerial Image Dataset for Remote Sensing Change Detection"</em>, IEEE Transactions on Geoscience
+        and Remote Sensing (2021).</div>
+      <div class="reference-item" id="ref-song2022csanet"><strong>Song, Ruoxi and Ni, Weihan and Cheng, Wei and Wang,
+          Xianghai</strong>. <em>"CSANet: Cross-temporal Interaction Symmetric Attention Network for Hyperspectral Image
+          Change Detection"</em>, IEEE GRSL (2022).</div>
+      <div class="reference-item" id="ref-stewart2024ssl4eo"><strong>Stewart, Adam and Lehmann, Nils and Corley, Isaac
+          and Wang, Yi and Chang, Yi-Chia and Ait Ali Braham, Nassim Ait and Sehgal, Shradha and Robinson, Caleb and
+          Banerjee, Arindam</strong>. <em>"Ssl4eo-l: Datasets and Foundation Models for Landsat Imagery"</em>, Advances
+        in Neural Information Processing Systems (2024).</div>
+      <div class="reference-item" id="ref-tang2021unsupervised"><strong>Tang, Xu and Zhang, Huayu and Mou, Lichao and
+          Liu, Fang and Zhang, Xiangrong and Zhu, Xiao Xiang and Jiao, Licheng</strong>. <em>"An Unsupervised Remote
+          Sensing Change Detection Method Based on Multiscale Graph Convolutional Network and Metric Learning"</em>,
+        IEEE TGRS (2021).</div>
+      <div class="reference-item" id="ref-tao2023tov"><strong>Tao, Chao and Qi, Ji and Zhang, Guo and Zhu, Qing and Lu,
+          Weipeng and Li, Haifeng</strong>. <em>"TOV: The Original Vision Model for Optical Remote Sensing Image
+          Understanding via Self-Supervised Learning"</em>, IEEE Journal of Selected Topics in Applied Earth
+        Observations and Remote Sensing (2023).</div>
+      <div class="reference-item" id="ref-tarasiou2022embeddingearthselfsupervisedcontrastive"><strong>Tarasiou, Michail
+          and Zafeiriou, Stefanos</strong>. <em>"Embedding Earth: Self-supervised Contrastive Pre-Training for Dense
+          Land Cover Classification"</em> (2022).</div>
+      <div class="reference-item" id="ref-tseng2021cropharvest"><strong>Gabriel Tseng and Ivan Zvonkov and Catherine
+          Lilian Nakalembe and Hannah Kerner</strong>. <em>"CropHarvest: A global dataset for crop-type
+          classification"</em>, Thirty-fifth Conference on Neural Information Processing Systems Datasets and Benchmarks
+        Track (Round 2) (2021).</div>
+      <div class="reference-item" id="ref-waldner2020deep"><strong>Waldner, François and Diakogiannis, Foivos
+          I.</strong>. <em>"Deep learning on edge: Extracting field boundaries from satellite images with a
+          convolutional neural network"</em>, Remote Sensing of Environment (2020).</div>
+      <div class="reference-item" id="ref-wang2023ssl4eo"><strong>Wang, Yi and Braham, Nassim Ait Ali and Xiong, Zhitong
+          and Liu, Chenying and Albrecht, Conrad M and Zhu, Xiao Xiang</strong>. <em>"SSL4EO-S12: A Large-Scale
+          Multimodal, Multitemporal Dataset for Self-Supervised Learning in Earth Observation [Software and Data
+          Sets]"</em>, IEEE Geoscience and Remote Sensing Magazine (2023).</div>
+      <div class="reference-item" id="ref-wang2024samrs"><strong>Wang, Di and Zhang, Jing and Du, Bo and Xu, Minqiang
+          and Liu, Lin and Tao, Dacheng and Zhang, Liangpei</strong>. <em>"Samrs: Scaling-up Remote Sensing Segmentation
+          Dataset with Segment Anything Model"</em>, Advances in Neural Information Processing Systems (2024).</div>
+      <div class="reference-item" id="ref-wang2024scaling"><strong>Wang, Fengxiang and Wang, Hongzhen and Wang, Di and
+          Guo, Zonghao and Zhong, Zhenyu and Lan, Long and Zhang, Jing and Liu, Zhiyuan and Sun, Maosong</strong>.
+        <em>"Scaling Efficient Masked Autoencoder Learning on Large Remote Sensing Dataset"</em>, arXiv preprint
+        arXiv:2406.11933 (2024).
+      </div>
+      <div class="reference-item" id="ref-wen2024gcdddpmgenerativechangedetection"><strong>Chaminda Bandara, Wele Gedara
+          and Nair, Nithin Gopalakrishnan and Patel, Vishal M.</strong>. <em>"DDPM-CD: Denoising Diffusion Probabilistic
+          Models as Feature Extractors for Remote Sensing Change Detection"</em>, 2025 IEEE/CVF Winter Conference on
+        Applications of Computer Vision (WACV) (2025).</div>
+      <div class="reference-item" id="ref-xie2023edge"><strong>Xie, Yusen and Zheng, Shaolan and Wang, Haiyun and Qiu,
+          Yuzhou and Lin, Xilan and Shi, Qian</strong>. <em>"Edge Detection with Direction Guided Postprocessing for
+          Farmland Parcel Extraction"</em>, IEEE JSTARS (2023).</div>
+      <div class="reference-item" id="ref-xu2020deepcropmapping"><strong>Xu, Jinfan and Zhu, Yue and Zhong, Renhai and
+          Lin, Zhixian and Xu, Jialu and Jiang, Hao and Huang, Jingfeng and Li, Haifeng and Lin, Tao</strong>.
+        <em>"DeepCropMapping: A Multi-Temporal Deep Learning Approach with Improved Spatial Generalizability for Dynamic
+          Corn and Soybean Mapping"</em>, Remote Sensing of Environment (2020).
+      </div>
+      <div class="reference-item" id="ref-xu2022delineation"><strong>Xu, Lu and Ming, Dongping and Du, Tongyao and Chen,
+          Yangyang and Dong, Dehui and Zhou, Chenghu</strong>. <em>"Delineation of Cultivated Land Parcels Based on Deep
+          Convolutional Networks and Geographical Thematic Scene Division of Remotely Sensed Images"</em>, Computers and
+        Electronics in Agriculture (2022).</div>
+      <div class="reference-item" id="ref-xu2024new"><strong>Xu, Yijia and Zhou, Jing and Zhang, Zhou</strong>. <em>"A
+          New Bayesian Semi-Supervised Active Learning Framework for Large-Scale Crop Mapping Using Sentinel-2
+          Imagery"</em>, ISPRS Journal of Photogrammetry and Remote Sensing (2024).</div>
+      <div class="reference-item" id="ref-xu2024self"><strong>Xu, Yijia and Ma, Yuchi and Zhang, Zhou</strong>.
+        <em>"Self-Supervised Pre-Training for Large-Scale Crop Mapping Using Sentinel-2 Time Series"</em>, ISPRS Journal
+        of Photogrammetry and Remote Sensing (2024).
+      </div>
+      <div class="reference-item" id="ref-yan2023transy"><strong>Yan, Tianyu and Wan, Zifu and Zhang, Pingping and
+          Cheng, Gong and Lu, Huchuan</strong>. <em>"TransY-net: Learning Fully Transformer Networks for Change
+          Detection of Remote Sensing Images"</em>, IEEE TGRS (2023).</div>
+      <div class="reference-item" id="ref-yan2024tsanet"><strong>Yan, Shuai and Yao, Xiaochuang and Sun, Jialin and
+          Huang, Weiming and Yang, Longshan and Zhang, Chao and Gao, Bingbo and Yang, Jianyu and Yun, Wenju and Zhu,
+          Dehai</strong>. <em>"TSANet: A Deep Learning Framework for the Delineation of Agricultural Fields Utilizing
+          Satellite Image Time Series"</em>, Computers and Electronics in Agriculture (2024).</div>
+      <div class="reference-item" id="ref-yang2020semantic"><strong>Yang, Kunping and Xia, Gui-Song and Liu, Zicheng and
+          Du, Bo and Yang, Wen and Pelillo, Marcello and Zhang, Liangpei</strong>. <em>"Semantic Change Detection with
+          Asymmetric Siamese Networks"</em>, arXiv preprint arXiv:2010.05687 (2020).</div>
+      <div class="reference-item" id="ref-yang2022ppce"><strong>Yang, Bin and Guo, Jinyuan and Liu, Jianqiang and Ye,
+          Xin</strong>. <em>"PPCE: A Practical Loss for Crop Mapping Using Phenological Prior"</em>, IEEE Geoscience and
+        Remote Sensing Letters (2022).</div>
+      <div class="reference-item" id="ref-yao2023extended"><strong>Yao, Jing and Zhang, Bing and Li, Chenyu and Hong,
+          Danfeng and Chanussot, Jocelyn</strong>. <em>"Extended Vision Transformer (ExViT) for Land Use and Land Cover
+          Classification: A Multimodal Deep Learning Framework"</em>, IEEE Transactions on Geoscience and Remote Sensing
+        (2023).</div>
+      <div class="reference-item" id="ref-yaramasu2020pre"><strong>Yaramasu, Raghu and Bandaru, Varaprasad and Pnvr,
+          Koutilya</strong>. <em>"Pre-Season Crop Type Mapping Using Deep Neural Networks"</em>, Computers and
+        Electronics in Agriculture (2020).</div>
+      <div class="reference-item" id="ref-yuan2020self"><strong>Yuan, Yuan and Lin, Lei</strong>. <em>"Self-Supervised
+          Pretraining of Transformers for Satellite Image Time Series Classification"</em>, IEEE JSTARS (2020).</div>
+      <div class="reference-item" id="ref-yuan2022sits"><strong>Yuan, Yuan and Lin, Lei and Liu, Qingshan and Hang,
+          Renlong and Zhou, Zeng-Guang</strong>. <em>"SITS-former: A Pre-Trained Spatio-Spectral-Temporal Representation
+          Model for Sentinel-2 Time Series Classification"</em>, International Journal of Applied Earth Observation and
+        Geoinformation (2022).</div>
+      <div class="reference-item" id="ref-zhang2023novel"><strong>Zhang, Wei and Guo, Shanchuan and Zhang, Peng and Xia,
+          Zilong and Zhang, Xingang and Lin, Cong and Tang, Pengfei and Fang, Hong and Du, Peijun</strong>. <em>"A Novel
+          Knowledge-Driven Automated Solution for High-Resolution Cropland Extraction by Cross-Scale Sample
+          Transfer"</em>, IEEE TGRS (2023).</div>
+      <div class="reference-item" id="ref-zhao2023triple"><strong>Zhao, Yu and Chen, Pan and Chen, Zhengchao and Bai,
+          Yongqing and Zhao, Zhujun and Yang, Xuan</strong>. <em>"A Triple-Stream Network with Cross-Stage Feature
+          Fusion for High-Resolution Image Change Detection"</em>, IEEE TGRS (2023).</div>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <p>© 2025 - Advancing Agricultural Remote Sensing: A Comprehensive Review of Deep Supervised and Self-Supervised
+        Learning for Crop
+        Monitoring</p>
+      <p>Universidade Federal de Viçosa – UFV</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section[id],div[id]');
+      let current = '';
+      sections.forEach(s => { if (scrollY >= s.offsetTop - 200) current = s.id });
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.remove('active');
+        if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>
